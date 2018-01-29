@@ -1,10 +1,10 @@
 /**
  * Registers bio block.
  */
+import BioCard from "./bio-card";
 
 const { __ } = wp.i18n;
-const { registerBlockType, Editable, MediaUpload } = wp.blocks;
-const { Button } = wp.components;
+const { registerBlockType } = wp.blocks;
 
 registerBlockType( 'rtgb/bio-block', {
 	title: __( 'Bio Block' ),
@@ -36,87 +36,7 @@ registerBlockType( 'rtgb/bio-block', {
 			selector: '.about-you',
 		},
 	},
-	edit: props => {
-		const focusedEditable = props.focus ? props.focus.editable || 'title' : null;
-		const attributes = props.attributes;
-		const onChangeTitle = value => {
-			props.setAttributes( { title: value } );
-		};
-		const onFocusTitle = focus => {
-			props.setFocus( _.extend( {}, focus, { editable: 'title' } ) );
-		};
-		const onSelectImage = media => {
-			props.setAttributes( {
-				mediaURL: media.sizes.thumbnail.url,
-				mediaID: media.id,
-			} );
-		};
-		const onChangeSocialLinks = value => {
-			props.setAttributes( { socialLinks: value } );
-		};
-		const onFocusIngredients = focus => {
-			props.setFocus( _.extend( {}, focus, { editable: 'socialLinks' } ) );
-		};
-		const onChangeAboutYou = value => {
-			props.setAttributes( { aboutYou: value } );
-		};
-		const onFocusInstructions = focus => {
-			props.setFocus( _.extend( {}, focus, { editable: 'aboutYou' } ) );
-		};
-
-		return (
-			<div className={ props.className }>
-				<div className="bio-top-container">
-					<div className="bio-profile-pic">
-						{ attributes.mediaID ? <img src={ attributes.mediaURL } /> : '' }
-						<MediaUpload
-							onSelect={ onSelectImage }
-							value={ attributes.mediaID }
-							type="image"
-							render={ ( { open } ) => (
-								<Button isLarge onClick={ open }>
-									{ ! attributes.mediaID ? __( 'Profile Picture' ) : __( 'Change Picture' ) }
-								</Button>
-							) }
-						/>
-					</div>
-					<div className="bio-top-right-container">
-						<Editable
-							tagName="h2"
-							placeholder={ __( 'Write title…' ) }
-							value={ attributes.title }
-							onChange={ onChangeTitle }
-							focus={ focusedEditable === 'title' }
-							onFocus={ onFocusTitle }
-						/>
-						<Editable
-							tagName="div"
-							multiline="p"
-							className="about-you"
-							placeholder={ __( 'Write about you…' ) }
-							value={ attributes.aboutYou }
-							onChange={ onChangeAboutYou }
-							focus={ focusedEditable === 'aboutYou' }
-							onFocus={ onFocusInstructions }
-							inlineToolbar
-						/>
-					</div>
-				</div>
-				<h3>{ __( 'Social Links' ) }</h3>
-				<Editable
-					tagName="ul"
-					multiline="li"
-					placeholder={ __( 'Enter social Links…' ) }
-					value={ attributes.socialLinks }
-					onChange={ onChangeSocialLinks }
-					focus={ focusedEditable === 'socialLinks' }
-					onFocus={ onFocusIngredients }
-					className="social-links"
-					inlineToolbar
-				/>
-			</div>
-		);
-	},
+	edit: BioCard,
 	save: props => {
 		const {
 			className,

@@ -68,25 +68,25 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-__webpack_require__(2);
 __webpack_require__(3);
-module.exports = __webpack_require__(4);
+__webpack_require__(4);
+module.exports = __webpack_require__(5);
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bio_card__ = __webpack_require__(2);
 /**
  * Registers bio block.
  */
 
+
 var __ = wp.i18n.__;
-var _wp$blocks = wp.blocks,
-    registerBlockType = _wp$blocks.registerBlockType,
-    Editable = _wp$blocks.Editable,
-    MediaUpload = _wp$blocks.MediaUpload;
-var Button = wp.components.Button;
+var registerBlockType = wp.blocks.registerBlockType;
 
 
 registerBlockType('rtgb/bio-block', {
@@ -119,100 +119,7 @@ registerBlockType('rtgb/bio-block', {
 			selector: '.about-you'
 		}
 	},
-	edit: function edit(props) {
-		var focusedEditable = props.focus ? props.focus.editable || 'title' : null;
-		var attributes = props.attributes;
-		var onChangeTitle = function onChangeTitle(value) {
-			props.setAttributes({ title: value });
-		};
-		var onFocusTitle = function onFocusTitle(focus) {
-			props.setFocus(_.extend({}, focus, { editable: 'title' }));
-		};
-		var onSelectImage = function onSelectImage(media) {
-			props.setAttributes({
-				mediaURL: media.sizes.thumbnail.url,
-				mediaID: media.id
-			});
-		};
-		var onChangeSocialLinks = function onChangeSocialLinks(value) {
-			props.setAttributes({ socialLinks: value });
-		};
-		var onFocusIngredients = function onFocusIngredients(focus) {
-			props.setFocus(_.extend({}, focus, { editable: 'socialLinks' }));
-		};
-		var onChangeAboutYou = function onChangeAboutYou(value) {
-			props.setAttributes({ aboutYou: value });
-		};
-		var onFocusInstructions = function onFocusInstructions(focus) {
-			props.setFocus(_.extend({}, focus, { editable: 'aboutYou' }));
-		};
-
-		return wp.element.createElement(
-			'div',
-			{ className: props.className },
-			wp.element.createElement(
-				'div',
-				{ className: 'bio-top-container' },
-				wp.element.createElement(
-					'div',
-					{ className: 'bio-profile-pic' },
-					attributes.mediaID ? wp.element.createElement('img', { src: attributes.mediaURL }) : '',
-					wp.element.createElement(MediaUpload, {
-						onSelect: onSelectImage,
-						value: attributes.mediaID,
-						type: 'image',
-						render: function render(_ref) {
-							var open = _ref.open;
-							return wp.element.createElement(
-								Button,
-								{ isLarge: true, onClick: open },
-								!attributes.mediaID ? __('Profile Picture') : __('Change Picture')
-							);
-						}
-					})
-				),
-				wp.element.createElement(
-					'div',
-					{ className: 'bio-top-right-container' },
-					wp.element.createElement(Editable, {
-						tagName: 'h2',
-						placeholder: __('Write title…'),
-						value: attributes.title,
-						onChange: onChangeTitle,
-						focus: focusedEditable === 'title',
-						onFocus: onFocusTitle
-					}),
-					wp.element.createElement(Editable, {
-						tagName: 'div',
-						multiline: 'p',
-						className: 'about-you',
-						placeholder: __('Write about you…'),
-						value: attributes.aboutYou,
-						onChange: onChangeAboutYou,
-						focus: focusedEditable === 'aboutYou',
-						onFocus: onFocusInstructions,
-						inlineToolbar: true
-					})
-				)
-			),
-			wp.element.createElement(
-				'h3',
-				null,
-				__('Social Links')
-			),
-			wp.element.createElement(Editable, {
-				tagName: 'ul',
-				multiline: 'li',
-				placeholder: __('Enter social Links…'),
-				value: attributes.socialLinks,
-				onChange: onChangeSocialLinks,
-				focus: focusedEditable === 'socialLinks',
-				onFocus: onFocusIngredients,
-				className: 'social-links',
-				inlineToolbar: true
-			})
-		);
-	},
+	edit: __WEBPACK_IMPORTED_MODULE_0__bio_card__["a" /* default */],
 	save: function save(props) {
 		var className = props.className,
 		    _props$attributes = props.attributes,
@@ -256,6 +163,165 @@ registerBlockType('rtgb/bio-block', {
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Contains bio car component.
+ */
+
+var Component = wp.element.Component;
+var _wp$blocks = wp.blocks,
+    Editable = _wp$blocks.Editable,
+    MediaUpload = _wp$blocks.MediaUpload;
+var Button = wp.components.Button;
+var __ = wp.i18n.__;
+
+var BioCard = function (_Component) {
+	_inherits(BioCard, _Component);
+
+	function BioCard() {
+		_classCallCheck(this, BioCard);
+
+		var _this = _possibleConstructorReturn(this, (BioCard.__proto__ || Object.getPrototypeOf(BioCard)).apply(this, arguments));
+
+		_this.onChangeTitle = _this.onChangeTitle.bind(_this);
+		_this.onFocusTitle = _this.onFocusTitle.bind(_this);
+		_this.onSelectImage = _this.onSelectImage.bind(_this);
+		_this.onChangeSocialLinks = _this.onChangeSocialLinks.bind(_this);
+		_this.onFocusSocialLinks = _this.onFocusSocialLinks.bind(_this);
+		_this.onChangeAboutYou = _this.onChangeAboutYou.bind(_this);
+		_this.onFocusAboutYou = _this.onFocusAboutYou.bind(_this);
+		return _this;
+	}
+
+	_createClass(BioCard, [{
+		key: 'onChangeTitle',
+		value: function onChangeTitle(value) {
+			this.props.setAttributes({ title: value });
+		}
+	}, {
+		key: 'onFocusTitle',
+		value: function onFocusTitle(focus) {
+			this.props.setFocus(_.extend({}, focus, { editable: 'title' }));
+		}
+	}, {
+		key: 'onSelectImage',
+		value: function onSelectImage(media) {
+			this.props.setAttributes({
+				mediaURL: media.sizes.thumbnail.url,
+				mediaID: media.id
+			});
+		}
+	}, {
+		key: 'onChangeSocialLinks',
+		value: function onChangeSocialLinks(value) {
+			this.props.setAttributes({ socialLinks: value });
+		}
+	}, {
+		key: 'onFocusSocialLinks',
+		value: function onFocusSocialLinks(focus) {
+			this.props.setFocus(_.extend({}, focus, { editable: 'socialLinks' }));
+		}
+	}, {
+		key: 'onChangeAboutYou',
+		value: function onChangeAboutYou(value) {
+			this.props.setAttributes({ aboutYou: value });
+		}
+	}, {
+		key: 'onFocusAboutYou',
+		value: function onFocusAboutYou(focus) {
+			this.props.setFocus(_.extend({}, focus, { editable: 'aboutYou' }));
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var focusedEditable = this.props.focus ? this.props.focus.editable || 'title' : null;
+			var attributes = this.props.attributes;
+
+			return wp.element.createElement(
+				'div',
+				{ className: this.props.className },
+				wp.element.createElement(
+					'div',
+					{ className: 'bio-top-container' },
+					wp.element.createElement(
+						'div',
+						{ className: 'bio-profile-pic' },
+						attributes.mediaID ? wp.element.createElement('img', { src: attributes.mediaURL }) : '',
+						wp.element.createElement(MediaUpload, {
+							onSelect: this.onSelectImage,
+							value: attributes.mediaID,
+							type: 'image',
+							render: function render(_ref) {
+								var open = _ref.open;
+								return wp.element.createElement(
+									Button,
+									{ isLarge: true, onClick: open },
+									!attributes.mediaID ? __('Profile Picture') : __('Change Picture')
+								);
+							}
+						})
+					),
+					wp.element.createElement(
+						'div',
+						{ className: 'bio-top-right-container' },
+						wp.element.createElement(Editable, {
+							tagName: 'h2',
+							placeholder: __('Write title…'),
+							value: attributes.title,
+							onChange: this.onChangeTitle,
+							focus: focusedEditable === 'title',
+							onFocus: this.onFocusTitle
+						}),
+						wp.element.createElement(Editable, {
+							tagName: 'div',
+							multiline: 'p',
+							className: 'about-you',
+							placeholder: __('Write about you…'),
+							value: attributes.aboutYou,
+							onChange: this.onChangeAboutYou,
+							focus: focusedEditable === 'aboutYou',
+							onFocus: this.onFocusAboutYou,
+							inlineToolbar: true
+						})
+					)
+				),
+				wp.element.createElement(
+					'h3',
+					null,
+					__('Social Links')
+				),
+				wp.element.createElement(Editable, {
+					tagName: 'ul',
+					multiline: 'li',
+					placeholder: __('Enter social Links…'),
+					value: attributes.socialLinks,
+					onChange: this.onChangeSocialLinks,
+					focus: focusedEditable === 'socialLinks',
+					onFocus: this.onFocusSocialLinks,
+					className: 'social-links',
+					inlineToolbar: true
+				})
+			);
+		}
+	}]);
+
+	return BioCard;
+}(Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (BioCard);
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 /**
@@ -326,7 +392,7 @@ registerBlockType('rtgb/rt-editable-block', {
 });
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 /**
@@ -359,12 +425,12 @@ registerBlockType('rtgb/simple-block', {
 });
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(6);
 
 
 var __ = wp.i18n.__;
@@ -468,11 +534,11 @@ registerBlockType('rtgb/slider-block', {
 });
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__slide_image__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__slide_image__ = __webpack_require__(7);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -734,11 +800,11 @@ var rtSliderBlock = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (rtSliderBlock);
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_classnames__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -852,7 +918,7 @@ var SlideImage = function (_Component) {
 })(SlideImage));
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
