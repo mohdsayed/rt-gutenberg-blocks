@@ -23,6 +23,7 @@ class Plugin extends Plugin_Base {
 	 */
 	public function init() {
 		$this->config = apply_filters( 'rt_gutenberg_blocks_plugin_config', $this->config, $this );
+		require_once 'class-meta-box.php';
 	}
 
 	/**
