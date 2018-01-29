@@ -117,3 +117,59 @@
 .slick-arrow.slick-hidden {
 	display: none;
 }
+
+/* Custom CSS */
+
+.slick-prev,
+.slick-next {
+	font-size: 0;
+	position: absolute;
+	bottom: 20px;
+	color: #000000;
+	opacity: 0.8;
+	border: 0;
+	background: none;
+	z-index: 1;
+	top: 0;
+	cursor: pointer;
+	outline: none;
+}
+
+.slick-prev {
+	left: 20px;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+	opacity: 1;
+}
+
+.slick-prev:after {
+	content: "\f341";
+	font: normal 20px/1 dashicons;
+	speak: none;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-size: 40px;
+}
+
+.slick-next {
+	right: 20px;
+	text-align: right;
+}
+
+.slick-next:after {
+	content: "\f345";
+	font: normal 20px/1 dashicons;
+	speak: none;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-size: 40px;
+}
+
+.slick-prev:hover:after,
+.slick-next:hover:after {
+	color: #7e7e7e;
+}

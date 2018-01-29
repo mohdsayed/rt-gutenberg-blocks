@@ -152,45 +152,48 @@ registerBlockType('rtgb/bio-block', {
 			{ className: props.className },
 			wp.element.createElement(
 				'div',
-				{ className: 'bio-profile-pic' },
-				attributes.mediaID ? wp.element.createElement('img', { src: attributes.mediaURL }) : '',
-				wp.element.createElement(MediaUpload, {
-					onSelect: onSelectImage,
-					value: attributes.mediaID,
-					type: 'image',
-					render: function render(_ref) {
-						var open = _ref.open;
-						return wp.element.createElement(
-							Button,
-							{ isLarge: true, onClick: open },
-							!attributes.mediaID ? __('Profile Picture') : __('Change Profile Picture')
-						);
-					}
-				}),
-				wp.element.createElement(Editable, {
-					tagName: 'h2',
-					placeholder: __('Write title…'),
-					value: attributes.title,
-					onChange: onChangeTitle,
-					focus: focusedEditable === 'title',
-					onFocus: onFocusTitle
-				}),
+				{ className: 'bio-top-container' },
 				wp.element.createElement(
-					'h3',
-					null,
-					__('About You')
+					'div',
+					{ className: 'bio-profile-pic' },
+					attributes.mediaID ? wp.element.createElement('img', { src: attributes.mediaURL }) : '',
+					wp.element.createElement(MediaUpload, {
+						onSelect: onSelectImage,
+						value: attributes.mediaID,
+						type: 'image',
+						render: function render(_ref) {
+							var open = _ref.open;
+							return wp.element.createElement(
+								Button,
+								{ isLarge: true, onClick: open },
+								!attributes.mediaID ? __('Profile Picture') : __('Change Picture')
+							);
+						}
+					})
 				),
-				wp.element.createElement(Editable, {
-					tagName: 'div',
-					multiline: 'p',
-					className: 'about-you',
-					placeholder: __('Write about you…'),
-					value: attributes.aboutYou,
-					onChange: onChangeAboutYou,
-					focus: focusedEditable === 'aboutYou',
-					onFocus: onFocusInstructions,
-					inlineToolbar: true
-				})
+				wp.element.createElement(
+					'div',
+					{ className: 'bio-top-right-container' },
+					wp.element.createElement(Editable, {
+						tagName: 'h2',
+						placeholder: __('Write title…'),
+						value: attributes.title,
+						onChange: onChangeTitle,
+						focus: focusedEditable === 'title',
+						onFocus: onFocusTitle
+					}),
+					wp.element.createElement(Editable, {
+						tagName: 'div',
+						multiline: 'p',
+						className: 'about-you',
+						placeholder: __('Write about you…'),
+						value: attributes.aboutYou,
+						onChange: onChangeAboutYou,
+						focus: focusedEditable === 'aboutYou',
+						onFocus: onFocusInstructions,
+						inlineToolbar: true
+					})
+				)
 			),
 			wp.element.createElement(
 				'h3',

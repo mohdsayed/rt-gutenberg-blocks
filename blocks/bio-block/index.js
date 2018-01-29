@@ -66,38 +66,41 @@ registerBlockType( 'rtgb/bio-block', {
 
 		return (
 			<div className={ props.className }>
-				<div className="bio-profile-pic">
-					{ attributes.mediaID ? <img src={ attributes.mediaURL } /> : '' }
-					<MediaUpload
-						onSelect={ onSelectImage }
-						value={ attributes.mediaID }
-						type="image"
-						render={ ( { open } ) => (
-							<Button isLarge onClick={ open }>
-								{ ! attributes.mediaID ? __( 'Profile Picture' ) : __( 'Change Profile Picture' ) }
-							</Button>
-						) }
-					/>
-					<Editable
-						tagName="h2"
-						placeholder={ __( 'Write title…' ) }
-						value={ attributes.title }
-						onChange={ onChangeTitle }
-						focus={ focusedEditable === 'title' }
-						onFocus={ onFocusTitle }
-					/>
-					<h3>{ __( 'About You' ) }</h3>
-					<Editable
-						tagName="div"
-						multiline="p"
-						className="about-you"
-						placeholder={ __( 'Write about you…' ) }
-						value={ attributes.aboutYou }
-						onChange={ onChangeAboutYou }
-						focus={ focusedEditable === 'aboutYou' }
-						onFocus={ onFocusInstructions }
-						inlineToolbar
-					/>
+				<div className="bio-top-container">
+					<div className="bio-profile-pic">
+						{ attributes.mediaID ? <img src={ attributes.mediaURL } /> : '' }
+						<MediaUpload
+							onSelect={ onSelectImage }
+							value={ attributes.mediaID }
+							type="image"
+							render={ ( { open } ) => (
+								<Button isLarge onClick={ open }>
+									{ ! attributes.mediaID ? __( 'Profile Picture' ) : __( 'Change Picture' ) }
+								</Button>
+							) }
+						/>
+					</div>
+					<div className="bio-top-right-container">
+						<Editable
+							tagName="h2"
+							placeholder={ __( 'Write title…' ) }
+							value={ attributes.title }
+							onChange={ onChangeTitle }
+							focus={ focusedEditable === 'title' }
+							onFocus={ onFocusTitle }
+						/>
+						<Editable
+							tagName="div"
+							multiline="p"
+							className="about-you"
+							placeholder={ __( 'Write about you…' ) }
+							value={ attributes.aboutYou }
+							onChange={ onChangeAboutYou }
+							focus={ focusedEditable === 'aboutYou' }
+							onFocus={ onFocusInstructions }
+							inlineToolbar
+						/>
+					</div>
 				</div>
 				<h3>{ __( 'Social Links' ) }</h3>
 				<Editable
