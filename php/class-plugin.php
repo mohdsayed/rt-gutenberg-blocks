@@ -34,20 +34,20 @@ class Plugin extends Plugin_Base {
 	public function enqueue_block_editor_assets() {
 		wp_register_script(
 			'slick-slider',
-			$this->dir_url . '/js/slick.js',
+			$this->dir_url . 'js/slick.js',
 			[ 'jquery' ]
 		);
 
 		wp_enqueue_script(
 			'rtgb-block',
-			$this->dir_url . '/js/block.build.js',
+			$this->dir_url . 'js/block.build.js',
 			[ 'slick-slider', 'wp-blocks', 'wp-i18n', 'wp-element', 'moment' ],
 			filemtime( $this->dir_path . '/js/block.build.js' )
 		);
 
 		wp_enqueue_style(
 			'rtgb-editor-style',
-			$this->dir_url . '/css/editor.css',
+			$this->dir_url . 'css/editor.css',
 			[ 'wp-edit-blocks' ],
 			filemtime( $this->dir_path . '/css/editor.css' )
 		);
@@ -65,5 +65,14 @@ class Plugin extends Plugin_Base {
 			[ 'wp-blocks' ],
 			filemtime( $this->dir_path . '/css/style.css' )
 		);
+	}
+
+	/**
+	 * Enqueue front end styles.
+	 *
+	 * @action wp_enqueue_scripts
+	 */
+	public function enqueue_styles() {
+		wp_enqueue_style( 'rt-gutenberg-blocks', $this->dir_url . 'css/style.css' );
 	}
 }
