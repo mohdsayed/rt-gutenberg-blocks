@@ -1,0 +1,7 @@
+{
+	"name": "rt/wp-rt-gutenberg-blocks",
+	"type": "wordpress-plugin",
+	"description": "WordPress plugin scaffold/template",
+	"homepage": "https://github.com/rt/wp-rt-gutenberg-blocks",
+	"license": "GPLv2"
+}
