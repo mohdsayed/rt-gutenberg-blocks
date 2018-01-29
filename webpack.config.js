@@ -1,6 +1,11 @@
 module.exports = {
 	entry: {
-		slider: './blocks/slider/index.js'
+		blocks: [
+			'./blocks/slider/index.js',
+			'./blocks/simple-block/index.js',
+			'./blocks/editable-block/index.js',
+			'./blocks/bio-block/index.js',
+		]
 	},
 	output: {
 		path: __dirname + '/js/',

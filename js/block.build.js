@@ -60,62 +60,17 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2016 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-/* global define */
-
-(function () {
-	'use strict';
-
-	var hasOwn = {}.hasOwnProperty;
-
-	function classNames () {
-		var classes = [];
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg)) {
-				classes.push(classNames.apply(null, arg));
-			} else if (argType === 'object') {
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if (typeof module !== 'undefined' && module.exports) {
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return classNames;
-		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-		window.classNames = classNames;
-	}
-}());
+__webpack_require__(1);
+__webpack_require__(5);
+__webpack_require__(6);
+module.exports = __webpack_require__(7);
 
 
 /***/ }),
@@ -498,7 +453,7 @@ var rtSliderBlock = function (_Component) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_classnames__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -610,6 +565,343 @@ var SlideImage = function (_Component) {
 		image: id ? '/wp/v2/media/' + id : {}
 	};
 })(SlideImage));
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2016 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg)) {
+				classes.push(classNames.apply(null, arg));
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+		window.classNames = classNames;
+	}
+}());
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+/**
+ * Contains simple block registration.
+ */
+
+var el = wp.element.createElement;
+var __ = wp.i18n.__;
+var registerBlockType = wp.blocks.registerBlockType;
+
+var blockStyle = { backgroundColor: '#900', color: '#fff', padding: '20px' };
+
+registerBlockType('rtgb/simple-block', {
+
+	title: __('Simple Block'),
+
+	description: __('Creates s simple block.'),
+
+	icon: 'universal-access-alt',
+
+	category: 'common',
+
+	edit: function edit() {
+		return el('p', { style: blockStyle }, 'Hello World.');
+	},
+
+	save: function save() {
+		return el('p', { style: blockStyle }, 'Hello World Saved Content.');
+	}
+});
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+/**
+ * Creates editable block.
+ */
+
+var __ = wp.i18n.__;
+var _wp$blocks = wp.blocks,
+    registerBlockType = _wp$blocks.registerBlockType,
+    Editable = _wp$blocks.Editable,
+    children = _wp$blocks.source.children;
+
+
+registerBlockType('rtgb/rt-editable-block', {
+	title: __('RT Editable Block'),
+	icon: 'universal-access-alt',
+	category: 'common',
+	attributes: {
+		content: {
+			type: 'array',
+			source: 'children',
+			selector: 'p'
+		}
+	},
+	edit: function edit(props) {
+		var content = props.attributes.content,
+		    focus = props.focus,
+		    className = props.className,
+		    setFocus = props.setFocus;
+
+		var onChangeContent = function onChangeContent(newContent) {
+			props.setAttributes({ content: newContent });
+		};
+		return wp.element.createElement(
+			'div',
+			{ className: props.className },
+			wp.element.createElement(
+				'h3',
+				null,
+				'Enter Details'
+			),
+			wp.element.createElement(Editable, {
+				className: className,
+				placeholder: __('Write here...'),
+				onChange: onChangeContent,
+				value: content,
+				focus: focus,
+				onFocus: setFocus
+			})
+		);
+	},
+	save: function save(props) {
+		return wp.element.createElement(
+			'div',
+			{ className: props.className },
+			wp.element.createElement(
+				'h3',
+				null,
+				'I will only show on frontend and inside code editor'
+			),
+			wp.element.createElement(
+				'p',
+				null,
+				props.attributes.content
+			)
+		);
+	}
+});
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+/**
+ * Registers bio block.
+ */
+
+var __ = wp.i18n.__;
+var _wp$blocks = wp.blocks,
+    registerBlockType = _wp$blocks.registerBlockType,
+    Editable = _wp$blocks.Editable,
+    MediaUpload = _wp$blocks.MediaUpload;
+var Button = wp.components.Button;
+
+
+registerBlockType('rtgb/bio-block', {
+	title: __('Bio Block'),
+	icon: 'index-card',
+	category: 'layout',
+	attributes: {
+		title: {
+			type: 'array',
+			source: 'children',
+			selector: 'h2'
+		},
+		mediaID: {
+			type: 'number'
+		},
+		mediaURL: {
+			type: 'string',
+			source: 'attribute',
+			selector: 'img',
+			attribute: 'src'
+		},
+		socialLinks: {
+			type: 'array',
+			source: 'children',
+			selector: '.social-links'
+		},
+		aboutYou: {
+			type: 'array',
+			source: 'children',
+			selector: '.about-you'
+		}
+	},
+	edit: function edit(props) {
+		var focusedEditable = props.focus ? props.focus.editable || 'title' : null;
+		var attributes = props.attributes;
+		var onChangeTitle = function onChangeTitle(value) {
+			props.setAttributes({ title: value });
+		};
+		var onFocusTitle = function onFocusTitle(focus) {
+			props.setFocus(_.extend({}, focus, { editable: 'title' }));
+		};
+		var onSelectImage = function onSelectImage(media) {
+			props.setAttributes({
+				mediaURL: media.sizes.thumbnail.url,
+				mediaID: media.id
+			});
+		};
+		var onChangeSocialLinks = function onChangeSocialLinks(value) {
+			props.setAttributes({ socialLinks: value });
+		};
+		var onFocusIngredients = function onFocusIngredients(focus) {
+			props.setFocus(_.extend({}, focus, { editable: 'socialLinks' }));
+		};
+		var onChangeAboutYou = function onChangeAboutYou(value) {
+			props.setAttributes({ aboutYou: value });
+		};
+		var onFocusInstructions = function onFocusInstructions(focus) {
+			props.setFocus(_.extend({}, focus, { editable: 'aboutYou' }));
+		};
+
+		return wp.element.createElement(
+			'div',
+			{ className: props.className },
+			wp.element.createElement(
+				'div',
+				{ className: 'bio-profile-pic' },
+				attributes.mediaID ? wp.element.createElement('img', { src: attributes.mediaURL }) : '',
+				wp.element.createElement(MediaUpload, {
+					onSelect: onSelectImage,
+					value: attributes.mediaID,
+					type: 'image',
+					render: function render(_ref) {
+						var open = _ref.open;
+						return wp.element.createElement(
+							Button,
+							{ isLarge: true, onClick: open },
+							!attributes.mediaID ? __('Profile Picture') : __('Change Profile Picture')
+						);
+					}
+				}),
+				wp.element.createElement(Editable, {
+					tagName: 'h2',
+					placeholder: __('Write title…'),
+					value: attributes.title,
+					onChange: onChangeTitle,
+					focus: focusedEditable === 'title',
+					onFocus: onFocusTitle
+				}),
+				wp.element.createElement(
+					'h3',
+					null,
+					__('About You')
+				),
+				wp.element.createElement(Editable, {
+					tagName: 'div',
+					multiline: 'p',
+					className: 'about-you',
+					placeholder: __('Write about you…'),
+					value: attributes.aboutYou,
+					onChange: onChangeAboutYou,
+					focus: focusedEditable === 'aboutYou',
+					onFocus: onFocusInstructions,
+					inlineToolbar: true
+				})
+			),
+			wp.element.createElement(
+				'h3',
+				null,
+				__('Social Links')
+			),
+			wp.element.createElement(Editable, {
+				tagName: 'ul',
+				multiline: 'li',
+				placeholder: __('Enter social Links…'),
+				value: attributes.socialLinks,
+				onChange: onChangeSocialLinks,
+				focus: focusedEditable === 'socialLinks',
+				onFocus: onFocusIngredients,
+				className: 'social-links',
+				inlineToolbar: true
+			})
+		);
+	},
+	save: function save(props) {
+		var className = props.className,
+		    _props$attributes = props.attributes,
+		    title = _props$attributes.title,
+		    mediaURL = _props$attributes.mediaURL,
+		    socialLinks = _props$attributes.socialLinks,
+		    aboutYou = _props$attributes.aboutYou;
+
+		return wp.element.createElement(
+			'div',
+			{ className: className },
+			wp.element.createElement(
+				'h2',
+				null,
+				title
+			),
+			mediaURL && wp.element.createElement('img', { className: 'bio-profile-pic', src: mediaURL }),
+			wp.element.createElement(
+				'h3',
+				null,
+				__('About')
+			),
+			wp.element.createElement(
+				'div',
+				{ className: 'about-you' },
+				aboutYou
+			),
+			wp.element.createElement(
+				'h3',
+				null,
+				__('Find me Here')
+			),
+			wp.element.createElement(
+				'ul',
+				{ className: 'social-links' },
+				socialLinks
+			)
+		);
+	}
+});
 
 /***/ })
 /******/ ]);
