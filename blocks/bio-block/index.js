@@ -35,6 +35,10 @@ registerBlockType( 'rtgb/bio-block', {
 			source: 'children',
 			selector: '.about-you',
 		},
+		openExternalLinks: {
+			type: 'boolean',
+			default: false,
+		}
 	},
 	edit: BioCard,
 	save: props => {

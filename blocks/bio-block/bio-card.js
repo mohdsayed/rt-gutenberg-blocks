@@ -3,8 +3,9 @@
  */
 
 const { Component } = wp.element;
-const { Editable, MediaUpload } = wp.blocks;
+const { Editable, MediaUpload, InspectorControls } = wp.blocks;
 const { Button } = wp.components;
+const { ToggleControl } = wp.blocks.InspectorControls;
 const { __ } = wp.i18n;
 
 class BioCard extends Component {
@@ -18,6 +19,7 @@ class BioCard extends Component {
 		this.onFocusSocialLinks = this.onFocusSocialLinks.bind( this );
 		this.onChangeAboutYou = this.onChangeAboutYou.bind( this );
 		this.onFocusAboutYou = this.onFocusAboutYou.bind( this );
+		this.onChangeExternalLinks = this.onChangeExternalLinks.bind( this );
 	}
 
 	onChangeTitle( value ) {
@@ -51,12 +53,32 @@ class BioCard extends Component {
 		this.props.setFocus( _.extend( {}, focus, { editable: 'aboutYou' } ) );
 	}
 
+	onChangeExternalLinks( value ) {
+		this.props.setAttributes( { openExternalLinks: value } );
+	}
+
 	render() {
 		const focusedEditable = this.props.focus ? this.props.focus.editable || 'title' : null;
 		const attributes = this.props.attributes;
+		const { focus } = this.props;
 
-		return (
-			<div className={ this.props.className }>
+		/**
+		 * Adds inspector control in the sidebar.
+		 */
+		const inspectorControls = focus && (
+			<InspectorControls key="inspector">
+				<h3>{ __( 'Bio Block Settings' ) }</h3>
+				<ToggleControl
+					label={ __( 'Open Links in new tab' ) }
+					checked={ attributes.openExternalLinks }
+					onChange={ this.onChangeExternalLinks }
+				/>
+			</InspectorControls>
+		);
+
+		return [
+			inspectorControls,
+			<div className={ this.props.className } key="bio-container">
 				<div className="bio-top-container">
 					<div className="bio-profile-pic">
 						{ attributes.mediaID ? <img src={ attributes.mediaURL } /> : '' }
@@ -106,7 +128,7 @@ class BioCard extends Component {
 					inlineToolbar
 				/>
 			</div>
-		);
+		];
 	}
 }
 

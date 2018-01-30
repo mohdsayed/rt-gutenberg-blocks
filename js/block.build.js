@@ -117,6 +117,10 @@ registerBlockType('rtgb/bio-block', {
 			type: 'array',
 			source: 'children',
 			selector: '.about-you'
+		},
+		openExternalLinks: {
+			type: 'boolean',
+			default: false
 		}
 	},
 	edit: __WEBPACK_IMPORTED_MODULE_0__bio_card__["a" /* default */],
@@ -181,8 +185,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Component = wp.element.Component;
 var _wp$blocks = wp.blocks,
     Editable = _wp$blocks.Editable,
-    MediaUpload = _wp$blocks.MediaUpload;
+    MediaUpload = _wp$blocks.MediaUpload,
+    InspectorControls = _wp$blocks.InspectorControls;
 var Button = wp.components.Button;
+var ToggleControl = wp.blocks.InspectorControls.ToggleControl;
 var __ = wp.i18n.__;
 
 var BioCard = function (_Component) {
@@ -200,6 +206,7 @@ var BioCard = function (_Component) {
 		_this.onFocusSocialLinks = _this.onFocusSocialLinks.bind(_this);
 		_this.onChangeAboutYou = _this.onChangeAboutYou.bind(_this);
 		_this.onFocusAboutYou = _this.onFocusAboutYou.bind(_this);
+		_this.onChangeExternalLinks = _this.onChangeExternalLinks.bind(_this);
 		return _this;
 	}
 
@@ -242,14 +249,36 @@ var BioCard = function (_Component) {
 			this.props.setFocus(_.extend({}, focus, { editable: 'aboutYou' }));
 		}
 	}, {
+		key: 'onChangeExternalLinks',
+		value: function onChangeExternalLinks(value) {
+			this.props.setAttributes({ openExternalLinks: value });
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var focusedEditable = this.props.focus ? this.props.focus.editable || 'title' : null;
 			var attributes = this.props.attributes;
+			var focus = this.props.focus;
 
-			return wp.element.createElement(
+
+			var inspectorControls = focus && wp.element.createElement(
+				InspectorControls,
+				{ key: 'inspector' },
+				wp.element.createElement(
+					'h3',
+					null,
+					__('Bio Block Settings')
+				),
+				wp.element.createElement(ToggleControl, {
+					label: __('Open Links in new tab'),
+					checked: attributes.openExternalLinks,
+					onChange: this.onChangeExternalLinks
+				})
+			);
+
+			return [inspectorControls, wp.element.createElement(
 				'div',
-				{ className: this.props.className },
+				{ className: this.props.className, key: 'bio-container' },
 				wp.element.createElement(
 					'div',
 					{ className: 'bio-top-container' },
@@ -311,7 +340,7 @@ var BioCard = function (_Component) {
 					className: 'social-links',
 					inlineToolbar: true
 				})
-			);
+			)];
 		}
 	}]);
 
