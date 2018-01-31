@@ -70,8 +70,9 @@
 __webpack_require__(1);
 __webpack_require__(3);
 __webpack_require__(4);
-__webpack_require__(5);
-module.exports = __webpack_require__(6);
+__webpack_require__(6);
+__webpack_require__(7);
+module.exports = __webpack_require__(8);
 
 
 /***/ }),
@@ -430,7 +431,7 @@ registerBlockType('rtgb/rt-editable-block', {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__github_gist__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__github_gist__ = __webpack_require__(5);
 /**
  * Registers github gist block.
  *
@@ -521,6 +522,253 @@ registerBlockType('rtgb/github-gist', {
 
 /***/ }),
 /* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Contains bio car component.
+ */
+
+var Component = wp.element.Component;
+var InspectorControls = wp.blocks.InspectorControls;
+var TextControl = InspectorControls.TextControl;
+var __ = wp.i18n.__;
+
+var GithubGist = function (_Component) {
+	_inherits(GithubGist, _Component);
+
+	function GithubGist() {
+		_classCallCheck(this, GithubGist);
+
+		var _this = _possibleConstructorReturn(this, (GithubGist.__proto__ || Object.getPrototypeOf(GithubGist)).apply(this, arguments));
+
+		_this.gistContainerId = 'gist-' + _this.props.id;
+		return _this;
+	}
+
+	_createClass(GithubGist, [{
+		key: 'onInputChange',
+		value: function onInputChange(newVal) {
+			this.props.setAttributes({ url: newVal });
+		}
+	}, {
+		key: 'makeGithubRequest',
+		value: function makeGithubRequest() {
+			var _this2 = this;
+
+			jQuery.getJSON(this.props.attributes.url.trim(/\/$/) + '.json?callback=?', function (data) {
+				var div = jQuery('#' + _this2.gistContainerId),
+				    stylesheet = jQuery('<link />');
+
+				div.html('');
+				stylesheet.attr('ref', 'stylesheet').attr('href', data.stylesheet).attr('type', 'text/css');
+				div.append(stylesheet).append(data.div);
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var attributes = this.props.attributes;
+			var focus = this.props.focus;
+
+
+			var url = attributes.url || '',
+			    retval = [];
+
+			/**
+    * When the block is in focus or there's no URL value,
+    * show the text input control so the user can enter a URL.
+    */
+			if (!!focus || !url.length) {
+				retval.push(wp.element.createElement(TextControl, {
+					value: url,
+					key: 'controlOptions',
+					onChange: this.onInputChange.bind(this),
+					placeholder: __('Enter a GitHub Gist URL')
+				}));
+			}
+
+			if (url.length) {
+
+				/**
+     * setTimeout is used to delay the GitHub JSON API request
+     * until after the block is initially rendered. From the response,
+     * we update the rendered div.
+     */
+				setTimeout(this.makeGithubRequest.bind(this), 10);
+
+				retval.push(wp.element.createElement('div', { id: this.gistContainerId, key: this.gistContainerId }));
+			}
+
+			return retval;
+		}
+	}]);
+
+	return GithubGist;
+}(Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (GithubGist);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Registers bio block.
+ */
+
+var __ = wp.i18n.__;
+var Component = wp.element.Component;
+var _wp$blocks = wp.blocks,
+    registerBlockType = _wp$blocks.registerBlockType,
+    Editable = _wp$blocks.Editable,
+    MediaUpload = _wp$blocks.MediaUpload,
+    InspectorControls = _wp$blocks.InspectorControls;
+var Button = wp.components.Button;
+
+
+registerBlockType('rtgb/image-columns', {
+	title: __('Image Columns'),
+	icon: 'index-card',
+	category: 'layout',
+
+	attributes: {
+		mediaID: {
+			type: 'number'
+		},
+		mediaURL: {
+			type: 'string',
+			source: 'attribute',
+			selector: 'img',
+			attribute: 'src'
+		}
+	},
+
+	edit: function (_Component) {
+		_inherits(edit, _Component);
+
+		function edit() {
+			_classCallCheck(this, edit);
+
+			var _this = _possibleConstructorReturn(this, (edit.__proto__ || Object.getPrototypeOf(edit)).apply(this, arguments));
+
+			_this.onSelectImage = _this.onSelectImage.bind(_this);
+			_this.onChangeTitle = _this.onChangeTitle.bind(_this);
+			_this.onChangeContent = _this.onChangeContent.bind(_this);
+			_this.onChangeReadMore = _this.onChangeReadMore.bind(_this);
+			return _this;
+		}
+
+		_createClass(edit, [{
+			key: 'onSelectImage',
+			value: function onSelectImage(media) {
+				this.props.setAttributes({
+					mediaURL: media.sizes.medium.url,
+					mediaID: media.id
+				});
+			}
+		}, {
+			key: 'onChangeTitle',
+			value: function onChangeTitle(title) {
+				this.props.setAttributes({ title: title });
+			}
+		}, {
+			key: 'onChangeContent',
+			value: function onChangeContent(content) {
+				this.props.setAttributes({ content: content });
+			}
+		}, {
+			key: 'onChangeReadMore',
+			value: function onChangeReadMore(readMore) {
+				this.props.setAttributes({ content: content });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _props = this.props,
+				    focus = _props.focus,
+				    attributes = _props.attributes;
+
+
+				var column = wp.element.createElement(
+					'div',
+					{ className: this.props.className, key: 'image-columns-container' },
+					wp.element.createElement(MediaUpload, {
+						onSelect: this.onSelectImage,
+						type: 'image',
+						value: attributes.mediaID,
+						render: function render(_ref) {
+							var open = _ref.open;
+							return wp.element.createElement(
+								Button,
+								{ className: attributes.mediaID ? 'image-button' : 'button button-large', onClick: open },
+								!attributes.mediaID ? __('Upload Image') : wp.element.createElement('img', { src: attributes.mediaURL })
+							);
+						}
+					}),
+					wp.element.createElement(Editable, {
+						onChange: this.onChangeTitle,
+						value: '',
+						focus: focus,
+						placeholder: __('Enter Title...')
+					}),
+					wp.element.createElement(Editable, {
+						onChange: this.onChangeContent,
+						value: '',
+						focus: focus,
+						placeholder: __('Enter Content...')
+					}),
+					wp.element.createElement(Editable, {
+						onChange: this.onChangeReadMore,
+						value: '',
+						focus: focus,
+						placeholder: __('Read More Text and Link...')
+					})
+				);
+
+				return wp.element.createElement(
+					'div',
+					null,
+					column
+				);
+			}
+		}]);
+
+		return edit;
+	}(Component),
+
+	save: function save(props) {
+		var className = props.className,
+		    _props$attributes = props.attributes,
+		    title = _props$attributes.title,
+		    mediaURL = _props$attributes.mediaURL;
+
+		return wp.element.createElement(
+			'div',
+			{ className: className },
+			mediaURL && wp.element.createElement('img', { className: 'recipe-image', src: mediaURL })
+		);
+	}
+});
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports) {
 
 /**
@@ -553,12 +801,12 @@ registerBlockType('rtgb/simple-block', {
 });
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(9);
 
 
 var __ = wp.i18n.__;
@@ -662,11 +910,11 @@ registerBlockType('rtgb/slider-block', {
 });
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__slide_image__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__slide_image__ = __webpack_require__(10);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -928,11 +1176,11 @@ var rtSliderBlock = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (rtSliderBlock);
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_classnames__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1046,7 +1294,7 @@ var SlideImage = function (_Component) {
 })(SlideImage));
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -1099,103 +1347,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	}
 }());
 
-
-/***/ }),
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- * Contains bio car component.
- */
-
-var Component = wp.element.Component;
-var InspectorControls = wp.blocks.InspectorControls;
-var TextControl = InspectorControls.TextControl;
-var __ = wp.i18n.__;
-
-var GithubGist = function (_Component) {
-	_inherits(GithubGist, _Component);
-
-	function GithubGist() {
-		_classCallCheck(this, GithubGist);
-
-		var _this = _possibleConstructorReturn(this, (GithubGist.__proto__ || Object.getPrototypeOf(GithubGist)).apply(this, arguments));
-
-		_this.gistContainerId = 'gist-' + _this.props.id;
-		return _this;
-	}
-
-	_createClass(GithubGist, [{
-		key: 'onInputChange',
-		value: function onInputChange(newVal) {
-			this.props.setAttributes({ url: newVal });
-		}
-	}, {
-		key: 'makeGithubRequest',
-		value: function makeGithubRequest() {
-			var _this2 = this;
-
-			jQuery.getJSON(this.props.attributes.url.trim(/\/$/) + '.json?callback=?', function (data) {
-				var div = jQuery('#' + _this2.gistContainerId),
-				    stylesheet = jQuery('<link />');
-
-				div.html('');
-				stylesheet.attr('ref', 'stylesheet').attr('href', data.stylesheet).attr('type', 'text/css');
-				div.append(stylesheet).append(data.div);
-			});
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var attributes = this.props.attributes;
-			var focus = this.props.focus;
-
-
-			var url = attributes.url || '',
-			    retval = [];
-
-			/**
-    * When the block is in focus or there's no URL value,
-    * show the text input control so the user can enter a URL.
-    */
-			if (!!focus || !url.length) {
-				retval.push(wp.element.createElement(TextControl, {
-					value: url,
-					key: 'controlOptions',
-					onChange: this.onInputChange.bind(this),
-					placeholder: __('Enter a GitHub Gist URL')
-				}));
-			}
-
-			if (url.length) {
-
-				/**
-     * setTimeout is used to delay the GitHub JSON API request
-     * until after the block is initially rendered. From the response,
-     * we update the rendered div.
-     */
-				setTimeout(this.makeGithubRequest.bind(this), 10);
-
-				retval.push(wp.element.createElement('div', { id: this.gistContainerId, key: this.gistContainerId }));
-			}
-
-			return retval;
-		}
-	}]);
-
-	return GithubGist;
-}(Component);
-
-/* harmony default export */ __webpack_exports__["a"] = (GithubGist);
 
 /***/ })
 /******/ ]);

@@ -32,7 +32,32 @@
 .wp-block-rt-gutenberg-blocks-rtgb {
 	border: 1px dotted #f00;
 }
-/* Slider */
+
+.wp-block-rtgb-bio-block .bio-top-container {
+	display: flex;
+}
+
+.wp-block-rtgb-bio-block .bio-top-container img {
+	display: block;
+	margin-bottom: 15px;
+}
+
+.wp-block-rtgb-bio-block .bio-profile-pic {
+	min-width: 180px;
+}
+
+.gutenberg .wp-block-rtgb-bio-block .social-links {
+	list-style: none;
+}
+
+.wp-block-rtgb-bio-block .social-links li:before {
+	content: "\F139";
+	font: normal 20px/1 dashicons;
+	speak: none;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}/* Slider */
 .slick-slider
 {
 	position: relative;
