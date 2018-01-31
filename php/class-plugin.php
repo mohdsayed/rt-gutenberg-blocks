@@ -75,4 +75,39 @@ class Plugin extends Plugin_Base {
 	public function enqueue_styles() {
 		wp_enqueue_style( 'rt-gutenberg-blocks', $this->dir_url . 'css/style.css' );
 	}
+
+	/**
+	 * Registers all block assets so that they can be enqueued through Gutenberg in
+	 * the corresponding context.
+	 *
+	 * @action init
+	 * @see https://wordpress.org/gutenberg/handbook/blocks/writing-your-first-block-type/#enqueuing-block-scripts
+	 */
+	function github_gist_block_init() {
+		add_shortcode( 'github-gist', [ $this, 'render_github_gist' ] );
+
+		register_block_type( 'rtgb/github-gist', [
+			'attributes' => [
+				'url' => [
+					'type' => 'string',
+					'default' => ''
+				]
+			],
+			'render_callback' => [ $this, 'render_github_gist' ],
+		] );
+	}
+
+	/**
+	 * Renders github gist.
+	 *
+	 * @param array $attributes Attributes.
+	 * @return string
+	 */
+	function render_github_gist( $attributes ) {
+		if ( empty( $attributes['url'] ) || 'gist.github.com' !== parse_url( $attributes['url'], PHP_URL_HOST ) ) {
+			return '';
+		}
+
+		return sprintf( '<script src="%s"></script>', esc_url( rtrim( $attributes['url'], '/' ) . '.js' ) );
+	}
 }

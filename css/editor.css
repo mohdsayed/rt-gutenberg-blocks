@@ -23,7 +23,16 @@
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}/* Slider */
+}/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-rt-gutenberg-blocks-rtgb {
+	border: 1px dotted #f00;
+}
+/* Slider */
 .slick-slider
 {
 	position: relative;

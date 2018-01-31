@@ -1,5 +1,5 @@
 /**
- * Contains bio car component.
+ * Contains bio card component.
  */
 
 const { Component } = wp.element;

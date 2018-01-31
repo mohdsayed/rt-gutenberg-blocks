@@ -1,3 +1,14 @@
+/**
+ * The following styles get applied both on the front of your site and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-rt-gutenberg-blocks-rtgb {
+	background-color: #000;
+	color: #fff;
+	padding: 2px;
+}
 /* Slider */
 .slick-slider
 {
