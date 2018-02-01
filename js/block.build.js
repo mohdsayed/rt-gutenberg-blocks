@@ -643,7 +643,7 @@ registerBlockType('rtgb/image-columns', {
 		columns: {
 			type: 'array',
 			source: 'query',
-			selector: 'li',
+			selector: '.rt-column',
 			query: {
 				mediaID: {
 					type: 'number',
@@ -682,6 +682,7 @@ registerBlockType('rtgb/image-columns', {
 
 	save: function save(props) {
 		var columns = props.attributes.columns || [];
+		var columnCount = props.attributes.columnCount;
 		var className = props.className;
 		var imageColumns = [];
 
@@ -692,6 +693,10 @@ registerBlockType('rtgb/image-columns', {
 		_.each(columns, function (column, index) {
 			var columnClass = 'rt-column rt-column-' + index;
 			var columnKey = 'rt-column-' + index;
+
+			if (index + 1 > columnCount) {
+				return;
+			}
 
 			imageColumns.push(wp.element.createElement(
 				'li',
@@ -802,6 +807,7 @@ var ImageColumns = function (_Component) {
 
 			var _props = this.props,
 			    focus = _props.focus,
+			    setFocus = _props.setFocus,
 			    attributes = _props.attributes,
 			    setAttributes = _props.setAttributes;
 
@@ -847,8 +853,10 @@ var ImageColumns = function (_Component) {
 					},
 					className: columnClass,
 					attributes: columnAttributes,
-					focus: focus,
-					key: imageColumnKey
+					focused: focus,
+					setFocus: setFocus,
+					key: imageColumnKey,
+					index: index
 				}));
 			};
 
@@ -907,8 +915,11 @@ var ImageColumn = function (_Component) {
 		value: function render() {
 			var _props = this.props,
 			    attributes = _props.attributes,
-			    focus = _props.focus;
+			    focused = _props.focused,
+			    setFocus = _props.setFocus,
+			    index = _props.index;
 
+			var focusedEditable = focused ? focused.editable || index + "-title" : null;
 
 			return wp.element.createElement(
 				"div",
@@ -927,22 +938,34 @@ var ImageColumn = function (_Component) {
 					}
 				}),
 				wp.element.createElement(Editable, {
+					tagName: "h3",
 					onChange: this.props.onChangeTitle,
 					value: attributes.title,
-					focus: focus,
-					placeholder: __('Enter Title...')
+					placeholder: __('Enter Title...'),
+					focus: focusedEditable === index + "-title",
+					onFocus: function onFocus(focus) {
+						return setFocus(_.extend({}, focus, { editable: index + "-title" }));
+					}
 				}),
 				wp.element.createElement(Editable, {
 					onChange: this.props.onChangeContent,
 					value: attributes.content,
-					focus: focus,
-					placeholder: __('Enter Content...')
+					placeholder: __('Enter Content...'),
+					focus: focusedEditable === index + "-content",
+					onFocus: function onFocus(focus) {
+						return setFocus(_.extend({}, focus, { editable: index + "-content" }));
+					},
+					inlineToolbar: true
 				}),
 				wp.element.createElement(Editable, {
 					onChange: this.props.onChangeReadMore,
-					value: attributes.readMore,
-					focus: focus,
-					placeholder: __('Read More Text and Link...')
+					value: attributes.readMore ? attributes.readMore : __('Read More'),
+					placeholder: __('Read More Text and Link...'),
+					focus: focusedEditable === index + "-readmore",
+					onFocus: function onFocus(focus) {
+						return setFocus(_.extend({}, focus, { editable: index + "-readmore" }));
+					},
+					inlineToolbar: true
 				})
 			);
 		}

@@ -41,7 +41,7 @@ class ImageColumns extends Component {
 	}
 
 	render() {
-		const { focus, attributes, setAttributes } = this.props;
+		const { focus, setFocus, attributes, setAttributes } = this.props;
 		const imageColumns = [];
 
 		const inspectorControls = focus && (
@@ -71,8 +71,10 @@ class ImageColumns extends Component {
 					onChangeReadMore = { ( readMore ) => this.setColumnsAttributes( index, { readMore } ) }
 					className={ columnClass }
 					attributes={ columnAttributes }
-					focus={ focus }
+					focused={ focus }
+					setFocus={ setFocus }
 					key={ imageColumnKey }
+					index={ index }
 				/>
 			);
 		}

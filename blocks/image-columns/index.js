@@ -55,6 +55,7 @@ registerBlockType( 'rtgb/image-columns', {
 
 	save: props => {
 		const columns = props.attributes.columns || [];
+		const columnCount = props.attributes.columnCount;
 		const className = props.className;
 		const imageColumns = [];
 
@@ -65,6 +66,10 @@ registerBlockType( 'rtgb/image-columns', {
 		_.each( columns, function( column, index ) {
 			let columnClass = `rt-column rt-column-${ index }`;
 			let columnKey = `rt-column-${ index }`;
+
+			if ( index + 1 > columnCount ) {
+				return;
+			}
 
 			imageColumns.push(
 				<li key={ columnKey } className={ columnClass }>

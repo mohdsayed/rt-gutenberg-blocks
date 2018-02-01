@@ -14,7 +14,8 @@ class ImageColumn extends Component {
 	}
 
 	render() {
-		const { attributes, focus } = this.props;
+		const { attributes, focused, setFocus, index } = this.props;
+		const focusedEditable = focused ? focused.editable || `${ index }-title` : null;
 
 		return (
 			<div className={ this.props.className } key="image-columns-container" >
@@ -29,22 +30,28 @@ class ImageColumn extends Component {
 					) }
 				/>
 				<Editable
+					tagName='h3'
 					onChange={ this.props.onChangeTitle }
 					value={ attributes.title }
-					focus={ focus }
 					placeholder={ __( 'Enter Title...' ) }
+					focus={ focusedEditable === `${ index }-title` }
+					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-title` } ) ) }
 				/>
 				<Editable
 					onChange={ this.props.onChangeContent }
 					value={ attributes.content }
-					focus={ focus }
 					placeholder={ __( 'Enter Content...' ) }
+					focus={ focusedEditable === `${ index }-content` }
+					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-content` } ) ) }
+					inlineToolbar
 				/>
 				<Editable
 					onChange={ this.props.onChangeReadMore }
-					value={ attributes.readMore }
-					focus={ focus }
+					value={ attributes.readMore ? attributes.readMore : __( 'Read More' ) }
 					placeholder={ __( 'Read More Text and Link...' ) }
+					focus={ focusedEditable === `${ index }-readmore` }
+					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-readmore` } ) ) }
+					inlineToolbar
 				/>
 			</div>
 		);
