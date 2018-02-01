@@ -619,28 +619,19 @@ var GithubGist = function (_Component) {
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__image_columns__ = __webpack_require__(12);
 /**
  * Registers bio block.
  */
 
+
+
 var __ = wp.i18n.__;
-var Component = wp.element.Component;
-var _wp$blocks = wp.blocks,
-    registerBlockType = _wp$blocks.registerBlockType,
-    Editable = _wp$blocks.Editable,
-    MediaUpload = _wp$blocks.MediaUpload,
-    InspectorControls = _wp$blocks.InspectorControls;
-var Button = wp.components.Button;
+var registerBlockType = wp.blocks.registerBlockType;
 
 
 registerBlockType('rtgb/image-columns', {
@@ -657,107 +648,18 @@ registerBlockType('rtgb/image-columns', {
 			source: 'attribute',
 			selector: 'img',
 			attribute: 'src'
+		},
+		columns: {
+			type: 'number',
+			default: 3
 		}
 	},
 
-	edit: function (_Component) {
-		_inherits(edit, _Component);
-
-		function edit() {
-			_classCallCheck(this, edit);
-
-			var _this = _possibleConstructorReturn(this, (edit.__proto__ || Object.getPrototypeOf(edit)).apply(this, arguments));
-
-			_this.onSelectImage = _this.onSelectImage.bind(_this);
-			_this.onChangeTitle = _this.onChangeTitle.bind(_this);
-			_this.onChangeContent = _this.onChangeContent.bind(_this);
-			_this.onChangeReadMore = _this.onChangeReadMore.bind(_this);
-			return _this;
-		}
-
-		_createClass(edit, [{
-			key: 'onSelectImage',
-			value: function onSelectImage(media) {
-				this.props.setAttributes({
-					mediaURL: media.sizes.medium.url,
-					mediaID: media.id
-				});
-			}
-		}, {
-			key: 'onChangeTitle',
-			value: function onChangeTitle(title) {
-				this.props.setAttributes({ title: title });
-			}
-		}, {
-			key: 'onChangeContent',
-			value: function onChangeContent(content) {
-				this.props.setAttributes({ content: content });
-			}
-		}, {
-			key: 'onChangeReadMore',
-			value: function onChangeReadMore(readMore) {
-				this.props.setAttributes({ content: content });
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var _props = this.props,
-				    focus = _props.focus,
-				    attributes = _props.attributes;
-
-
-				var column = wp.element.createElement(
-					'div',
-					{ className: this.props.className, key: 'image-columns-container' },
-					wp.element.createElement(MediaUpload, {
-						onSelect: this.onSelectImage,
-						type: 'image',
-						value: attributes.mediaID,
-						render: function render(_ref) {
-							var open = _ref.open;
-							return wp.element.createElement(
-								Button,
-								{ className: attributes.mediaID ? 'image-button' : 'button button-large', onClick: open },
-								!attributes.mediaID ? __('Upload Image') : wp.element.createElement('img', { src: attributes.mediaURL })
-							);
-						}
-					}),
-					wp.element.createElement(Editable, {
-						onChange: this.onChangeTitle,
-						value: '',
-						focus: focus,
-						placeholder: __('Enter Title...')
-					}),
-					wp.element.createElement(Editable, {
-						onChange: this.onChangeContent,
-						value: '',
-						focus: focus,
-						placeholder: __('Enter Content...')
-					}),
-					wp.element.createElement(Editable, {
-						onChange: this.onChangeReadMore,
-						value: '',
-						focus: focus,
-						placeholder: __('Read More Text and Link...')
-					})
-				);
-
-				return wp.element.createElement(
-					'div',
-					null,
-					column
-				);
-			}
-		}]);
-
-		return edit;
-	}(Component),
+	edit: __WEBPACK_IMPORTED_MODULE_0__image_columns__["a" /* default */],
 
 	save: function save(props) {
 		var className = props.className,
-		    _props$attributes = props.attributes,
-		    title = _props$attributes.title,
-		    mediaURL = _props$attributes.mediaURL;
+		    mediaURL = props.attributes.mediaURL;
 
 		return wp.element.createElement(
 			'div',
@@ -1347,6 +1249,126 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	}
 }());
 
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Contains image columns component.
+ */
+
+var __ = wp.i18n.__;
+var Component = wp.element.Component;
+var _wp$blocks = wp.blocks,
+    Editable = _wp$blocks.Editable,
+    MediaUpload = _wp$blocks.MediaUpload,
+    InspectorControls = _wp$blocks.InspectorControls;
+var Button = wp.components.Button;
+
+var ImageColumns = function (_Component) {
+	_inherits(ImageColumns, _Component);
+
+	function ImageColumns() {
+		_classCallCheck(this, ImageColumns);
+
+		var _this = _possibleConstructorReturn(this, (ImageColumns.__proto__ || Object.getPrototypeOf(ImageColumns)).apply(this, arguments));
+
+		_this.onSelectImage = _this.onSelectImage.bind(_this);
+		_this.onChangeTitle = _this.onChangeTitle.bind(_this);
+		_this.onChangeContent = _this.onChangeContent.bind(_this);
+		_this.onChangeReadMore = _this.onChangeReadMore.bind(_this);
+		return _this;
+	}
+
+	_createClass(ImageColumns, [{
+		key: "onSelectImage",
+		value: function onSelectImage(media) {
+			this.props.setAttributes({
+				mediaURL: media.sizes.medium.url,
+				mediaID: media.id
+			});
+		}
+	}, {
+		key: "onChangeTitle",
+		value: function onChangeTitle(title) {
+			this.props.setAttributes({ title: title });
+		}
+	}, {
+		key: "onChangeContent",
+		value: function onChangeContent(content) {
+			this.props.setAttributes({ content: content });
+		}
+	}, {
+		key: "onChangeReadMore",
+		value: function onChangeReadMore(readMore) {
+			this.props.setAttributes({ content: content });
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _props = this.props,
+			    focus = _props.focus,
+			    attributes = _props.attributes;
+
+
+			var column = wp.element.createElement(
+				"div",
+				{ className: this.props.className, key: "image-columns-container" },
+				wp.element.createElement(MediaUpload, {
+					onSelect: this.onSelectImage,
+					type: "image",
+					value: attributes.mediaID,
+					render: function render(_ref) {
+						var open = _ref.open;
+						return wp.element.createElement(
+							Button,
+							{ className: attributes.mediaID ? 'image-button' : 'button button-large', onClick: open },
+							!attributes.mediaID ? __('Upload Image') : wp.element.createElement("img", { src: attributes.mediaURL })
+						);
+					}
+				}),
+				wp.element.createElement(Editable, {
+					onChange: this.onChangeTitle,
+					value: "",
+					focus: focus,
+					placeholder: __('Enter Title...')
+				}),
+				wp.element.createElement(Editable, {
+					onChange: this.onChangeContent,
+					value: "",
+					focus: focus,
+					placeholder: __('Enter Content...')
+				}),
+				wp.element.createElement(Editable, {
+					onChange: this.onChangeReadMore,
+					value: "",
+					focus: focus,
+					placeholder: __('Read More Text and Link...')
+				})
+			);
+
+			return wp.element.createElement(
+				"div",
+				null,
+				column
+			);
+		}
+	}]);
+
+	return ImageColumns;
+}(Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (ImageColumns);
 
 /***/ })
 /******/ ]);

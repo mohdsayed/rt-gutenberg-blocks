@@ -1,14 +1,14 @@
 /**
- * Contains Image Column component.
+ * Contains image columns component.
  */
 
+const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { Editable, MediaUpload, InspectorControls } = wp.blocks;
 const { Button } = wp.components;
-const { ToggleControl } = wp.blocks.InspectorControls;
-const { __ } = wp.i18n;
 
-class ImageColumn extends Component {
+class ImageColumns extends Component {
+
 	constructor() {
 		super( ...arguments );
 
@@ -21,7 +21,7 @@ class ImageColumn extends Component {
 	onSelectImage( media ) {
 		this.props.setAttributes( {
 			mediaURL: media.sizes.medium.url,
-			mediaId: media.id,
+			mediaID: media.id,
 		} );
 	}
 
@@ -37,46 +37,48 @@ class ImageColumn extends Component {
 		this.props.setAttributes( { content } );
 	}
 
-	componentWillReceiveProps( a, b ) {
-		console.warn( a, b, 'recieved props' );
-	}
-
 	render() {
-		const { mediaId, mediaURL, title, content, readMore, focus } = this.props;
+		const { focus, attributes } = this.props;
 
-		return (
-			<div>
+		const column = (
+			<div className={ this.props.className } key="image-columns-container" >
 				<MediaUpload
 					onSelect={ this.onSelectImage }
 					type="image"
-					value={ mediaId }
+					value={ attributes.mediaID }
 					render={ ( { open } ) => (
-						<Button  onClick={ open }>
-							{ mediaId ? <img src={ mediaURL } /> : __( 'Upload' ) }
+						<Button className={ attributes.mediaID ? 'image-button' : 'button button-large' } onClick={ open } >
+							{ ! attributes.mediaID ? __( 'Upload Image' ) : <img src={ attributes.mediaURL } /> }
 						</Button>
 					) }
 				/>
 				<Editable
 					onChange={ this.onChangeTitle }
-					value={ title }
+					value=''
 					focus={ focus }
 					placeholder={ __( 'Enter Title...' ) }
 				/>
 				<Editable
 					onChange={ this.onChangeContent }
-					value={ content }
+					value=''
 					focus={ focus }
 					placeholder={ __( 'Enter Content...' ) }
 				/>
 				<Editable
-					onChange={ this.onChangeContent }
-					value={ readMore || __( 'Read More' ) }
+					onChange={ this.onChangeReadMore }
+					value=''
 					focus={ focus }
 					placeholder={ __( 'Read More Text and Link...' ) }
 				/>
 			</div>
 		);
+
+		return (
+			<div>
+				{ column }
+			</div>
+		);
 	}
 }
 
-export default ImageColumn;
+export default ImageColumns;
