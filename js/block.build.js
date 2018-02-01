@@ -640,20 +640,29 @@ registerBlockType('rtgb/image-columns', {
 	category: 'layout',
 
 	attributes: {
-		mediaID: {
-			type: 'array'
-		},
-		mediaURL: {
-			type: 'array'
-		},
-		title: {
-			type: 'array'
-		},
 		content: {
-			type: 'array'
-		},
-		readMore: {
-			type: 'array'
+			type: 'array',
+			source: 'query',
+			query: {
+				mediaID: {
+					type: 'number',
+					source: 'attribute'
+				},
+				mediaURL: {
+					type: 'string',
+					source: 'attribute'
+				},
+				title: {
+					source: 'attribute'
+				},
+				content: {
+					source: 'attribute'
+				},
+				readMore: {
+					source: 'attribute'
+				}
+			},
+			default: [{}, {}, {}]
 		},
 		columns: {
 			type: 'number',
@@ -710,38 +719,40 @@ var ImageColumns = function (_Component) {
 		var _this = _possibleConstructorReturn(this, (ImageColumns.__proto__ || Object.getPrototypeOf(ImageColumns)).apply(this, arguments));
 
 		_this.onSelectImage = _this.onSelectImage.bind(_this);
-		_this.onChangeTitle = _this.onChangeTitle.bind(_this);
-		_this.onChangeContent = _this.onChangeContent.bind(_this);
-		_this.onChangeReadMore = _this.onChangeReadMore.bind(_this);
+		_this.setColumnsAttributes = _this.setColumnsAttributes.bind(_this);
 		return _this;
 	}
 
 	_createClass(ImageColumns, [{
 		key: 'onSelectImage',
-		value: function onSelectImage(media) {
-			this.props.setAttributes({
-				mediaURL: media.sizes.medium.url,
+		value: function onSelectImage(index, media) {
+			this.setColumnsAttributes(index, {
+				mediaURL: media.sizes.medium ? media.sizes.medium.url : media.url,
 				mediaID: media.id
 			});
 		}
 	}, {
-		key: 'onChangeTitle',
-		value: function onChangeTitle(title) {
-			this.props.setAttributes({ title: title });
-		}
-	}, {
-		key: 'onChangeContent',
-		value: function onChangeContent(content) {
-			this.props.setAttributes({ content: content });
-		}
-	}, {
-		key: 'onChangeReadMore',
-		value: function onChangeReadMore(readMore) {
-			this.props.setAttributes({ readMore: readMore });
+		key: 'setColumnsAttributes',
+		value: function setColumnsAttributes(index, dataObject) {
+			var attributes = this.props.attributes;
+
+			var existingData = attributes.content.slice(0) || [];
+
+			if (existingData[index]) {
+				existingData[index] = _.extend(existingData[index], dataObject);
+			} else {
+				existingData[index] = dataObject;
+			}
+
+			this.props.setAttributes({
+				content: existingData
+			});
 		}
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			var _props = this.props,
 			    focus = _props.focus,
 			    attributes = _props.attributes,
@@ -768,20 +779,32 @@ var ImageColumns = function (_Component) {
 				})
 			);
 
-			for (var i = 0; i < attributes.columns; i++) {
-				var columnClass = 'column-' + i + ' single-column';
-				var imageColumnKey = 'column-' + i;
+			var _loop = function _loop(index) {
+				var columnClass = 'column-' + index + ' single-column';
+				var imageColumnKey = 'column-' + index;
 
 				imageColumns.push(wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__image_column__["a" /* default */], {
-					onSelectImage: this.onSelectImage,
-					onChangeTitle: this.onChangeTitle,
-					onChangeContent: this.onChangeContent,
-					onChangeReadMore: this.onChangeReadMore,
+					onSelectImage: function onSelectImage(media) {
+						return _this2.onSelectImage(index, media);
+					},
+					onChangeTitle: function onChangeTitle(title) {
+						return _this2.setColumnsAttributes(index, { title: title });
+					},
+					onChangeContent: function onChangeContent(content) {
+						return _this2.setColumnsAttributes(index, { content: content });
+					},
+					onChangeReadMore: function onChangeReadMore(readMore) {
+						return _this2.setColumnsAttributes(index, { readMore: readMore });
+					},
 					className: columnClass,
 					attributes: attributes,
 					focus: focus,
 					key: imageColumnKey
 				}));
+			};
+
+			for (var index = 0; index < attributes.columns; index++) {
+				_loop(index);
 			}
 
 			return [inspectorControls, wp.element.createElement(

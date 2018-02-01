@@ -13,20 +13,29 @@ registerBlockType( 'rtgb/image-columns', {
 	category: 'layout',
 
 	attributes: {
-		mediaID: {
-			type: 'array',
-		},
-		mediaURL: {
-			type: 'array',
-		},
-		title: {
-			type: 'array'
-		},
 		content: {
-			type: 'array'
-		},
-		readMore: {
-			type: 'array'
+			type: 'array',
+			source: 'query',
+			query: {
+				mediaID: {
+					type: 'number',
+					source: 'attribute'
+				},
+				mediaURL: {
+					type: 'string',
+					source: 'attribute'
+				},
+				title: {
+					source: 'attribute'
+				},
+				content: {
+					source: 'attribute'
+				},
+				readMore: {
+					source: 'attribute'
+				},
+			},
+			default: [ {}, {}, {} ],
 		},
 		columns: {
 			type: 'number',

@@ -15,28 +15,29 @@ class ImageColumns extends Component {
 		super( ...arguments );
 
 		this.onSelectImage = this.onSelectImage.bind( this );
-		this.onChangeTitle = this.onChangeTitle.bind( this );
-		this.onChangeContent = this.onChangeContent.bind( this );
-		this.onChangeReadMore = this.onChangeReadMore.bind( this );
+		this.setColumnsAttributes = this.setColumnsAttributes.bind( this );
 	}
 
-	onSelectImage( media ) {
-		this.props.setAttributes( {
-			mediaURL: media.sizes.medium.url,
+	onSelectImage( index, media ) {
+		this.setColumnsAttributes( index, {
+			mediaURL: media.sizes.medium ? media.sizes.medium.url : media.url,
 			mediaID: media.id,
 		} );
 	}
 
-	onChangeTitle( title ) {
-		this.props.setAttributes( { title } );
-	}
+	setColumnsAttributes( index, dataObject ) {
+		const { attributes } = this.props;
+		let existingData = attributes.content.slice( 0 ) || [];
 
-	onChangeContent( content ) {
-		this.props.setAttributes( { content } );
-	}
+		if ( existingData[ index ] ) {
+			existingData[ index ] = _.extend( existingData[ index ], dataObject );
+		} else {
+			existingData[ index ] = dataObject;
+		}
 
-	onChangeReadMore( readMore ) {
-		this.props.setAttributes( { readMore } );
+		this.props.setAttributes( {
+			content: existingData
+		} );
 	}
 
 	render() {
@@ -56,16 +57,16 @@ class ImageColumns extends Component {
 			</InspectorControls>
 		);
 
-		for ( let i = 0; i < attributes.columns; i++ ) {
-			let columnClass = `column-${ i } single-column`;
-			let imageColumnKey = `column-${ i }`;
+		for ( let index = 0; index < attributes.columns; index++ ) {
+			let columnClass = `column-${ index } single-column`;
+			let imageColumnKey = `column-${ index }`;
 
 			imageColumns.push(
 				<ImageColumn
-					onSelectImage={ this.onSelectImage }
-					onChangeTitle={ this.onChangeTitle }
-					onChangeContent={ this.onChangeContent }
-					onChangeReadMore = { this.onChangeReadMore }
+					onSelectImage={ ( media ) => this.onSelectImage( index, media ) }
+					onChangeTitle={ ( title ) => this.setColumnsAttributes( index, { title } ) }
+					onChangeContent={ ( content ) => this.setColumnsAttributes( index, { content } ) }
+					onChangeReadMore = { ( readMore ) => this.setColumnsAttributes( index, { readMore } ) }
 					className={ columnClass }
 					attributes={ attributes }
 					focus={ focus }
