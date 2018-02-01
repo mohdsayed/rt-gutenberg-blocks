@@ -623,7 +623,7 @@ var GithubGist = function (_Component) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__image_columns__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(7);
 /**
  * Registers bio block.
  */
@@ -678,7 +678,7 @@ registerBlockType('rtgb/image-columns', {
 		}
 	},
 
-	edit: __WEBPACK_IMPORTED_MODULE_0__image_columns__["a" /* default */],
+	edit: __WEBPACK_IMPORTED_MODULE_0__block__["a" /* default */],
 
 	save: function save(props) {
 		var columns = props.attributes.columns || [];
@@ -762,20 +762,21 @@ var RangeControl = wp.blocks.InspectorControls.RangeControl;
 
 
 
-var ImageColumns = function (_Component) {
-	_inherits(ImageColumns, _Component);
+var ImageColumnBlock = function (_Component) {
+	_inherits(ImageColumnBlock, _Component);
 
-	function ImageColumns() {
-		_classCallCheck(this, ImageColumns);
+	function ImageColumnBlock() {
+		_classCallCheck(this, ImageColumnBlock);
 
-		var _this = _possibleConstructorReturn(this, (ImageColumns.__proto__ || Object.getPrototypeOf(ImageColumns)).apply(this, arguments));
+		var _this = _possibleConstructorReturn(this, (ImageColumnBlock.__proto__ || Object.getPrototypeOf(ImageColumnBlock)).apply(this, arguments));
 
 		_this.onSelectImage = _this.onSelectImage.bind(_this);
 		_this.setColumnsAttributes = _this.setColumnsAttributes.bind(_this);
+		_this.onRemoveImage = _this.onRemoveImage.bind(_this);
 		return _this;
 	}
 
-	_createClass(ImageColumns, [{
+	_createClass(ImageColumnBlock, [{
 		key: 'onSelectImage',
 		value: function onSelectImage(index, media) {
 			this.setColumnsAttributes(index, {
@@ -799,6 +800,11 @@ var ImageColumns = function (_Component) {
 			this.props.setAttributes({
 				columns: existingData
 			});
+		}
+	}, {
+		key: 'onRemoveImage',
+		value: function onRemoveImage(index) {
+			this.setColumnsAttributes(index, { mediaID: '', mediaURL: '' });
 		}
 	}, {
 		key: 'render',
@@ -851,6 +857,9 @@ var ImageColumns = function (_Component) {
 					onChangeReadMore: function onChangeReadMore(readMore) {
 						return _this2.setColumnsAttributes(index, { readMore: readMore });
 					},
+					onRemove: function onRemove() {
+						_this2.onRemoveImage(index);
+					},
 					className: columnClass,
 					attributes: columnAttributes,
 					focused: focus,
@@ -872,10 +881,10 @@ var ImageColumns = function (_Component) {
 		}
 	}]);
 
-	return ImageColumns;
+	return ImageColumnBlock;
 }(Component);
 
-/* harmony default export */ __webpack_exports__["a"] = (ImageColumns);
+/* harmony default export */ __webpack_exports__["a"] = (ImageColumnBlock);
 
 /***/ }),
 /* 8 */
@@ -899,7 +908,10 @@ var Component = wp.element.Component;
 var _wp$blocks = wp.blocks,
     Editable = _wp$blocks.Editable,
     MediaUpload = _wp$blocks.MediaUpload;
-var Button = wp.components.Button;
+var _wp$components = wp.components,
+    Button = _wp$components.Button,
+    IconButton = _wp$components.IconButton,
+    Placeholder = _wp$components.Placeholder;
 
 var ImageColumn = function (_Component) {
 	_inherits(ImageColumn, _Component);
@@ -917,26 +929,48 @@ var ImageColumn = function (_Component) {
 			    attributes = _props.attributes,
 			    focused = _props.focused,
 			    setFocus = _props.setFocus,
-			    index = _props.index;
+			    index = _props.index,
+			    onRemove = _props.onRemove;
 
 			var focusedEditable = focused ? focused.editable || index + "-title" : null;
 
 			return wp.element.createElement(
 				"div",
 				{ className: this.props.className, key: "image-columns-container" },
-				wp.element.createElement(MediaUpload, {
-					onSelect: this.props.onSelectImage,
-					type: "image",
-					value: attributes.mediaID,
-					render: function render(_ref) {
-						var open = _ref.open;
-						return wp.element.createElement(
-							Button,
-							{ className: attributes.mediaID ? 'image-button' : 'button button-large', onClick: open },
-							!attributes.mediaID ? __('Upload Image') : wp.element.createElement("img", { src: attributes.mediaURL })
-						);
-					}
-				}),
+				attributes.mediaID && wp.element.createElement(
+					"figure",
+					null,
+					wp.element.createElement(IconButton, {
+						key: "icon-button",
+						icon: "no-alt",
+						onClick: onRemove,
+						className: "rt-remove-image-button",
+						label: __('Remove Image')
+					}),
+					wp.element.createElement("img", { src: attributes.mediaURL })
+				),
+				!attributes.mediaID && wp.element.createElement(
+					Placeholder,
+					{
+						key: "placeholder",
+						icon: "media-image",
+						label: __('Thumbnail'),
+						instructions: __('Upload or choose from media library'),
+						className: "rt-image-placeholder" },
+					wp.element.createElement(MediaUpload, {
+						onSelect: this.props.onSelectImage,
+						type: "image",
+						value: attributes.mediaID,
+						render: function render(_ref) {
+							var open = _ref.open;
+							return wp.element.createElement(
+								Button,
+								{ key: "button", className: attributes.mediaID ? 'image-button' : 'button button-large', onClick: open },
+								!attributes.mediaID ? __('Choose') : ''
+							);
+						}
+					})
+				),
 				wp.element.createElement(Editable, {
 					tagName: "h3",
 					onChange: this.props.onChangeTitle,

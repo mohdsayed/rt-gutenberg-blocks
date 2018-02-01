@@ -9,13 +9,14 @@ const { RangeControl } = wp.blocks.InspectorControls;
 
 import ImageColumn from './image-column';
 
-class ImageColumns extends Component {
+class ImageColumnBlock extends Component {
 
 	constructor() {
 		super( ...arguments );
 
 		this.onSelectImage = this.onSelectImage.bind( this );
 		this.setColumnsAttributes = this.setColumnsAttributes.bind( this );
+		this.onRemoveImage = this.onRemoveImage.bind( this );
 	}
 
 	onSelectImage( index, media ) {
@@ -38,6 +39,10 @@ class ImageColumns extends Component {
 		this.props.setAttributes( {
 			columns: existingData
 		} );
+	}
+
+	onRemoveImage( index ) {
+		this.setColumnsAttributes( index, { mediaID: '', mediaURL: '' } );
 	}
 
 	render() {
@@ -69,6 +74,7 @@ class ImageColumns extends Component {
 					onChangeTitle={ ( title ) => this.setColumnsAttributes( index, { title } ) }
 					onChangeContent={ ( content ) => this.setColumnsAttributes( index, { content } ) }
 					onChangeReadMore = { ( readMore ) => this.setColumnsAttributes( index, { readMore } ) }
+					onRemove={ () => { this.onRemoveImage( index ) } }
 					className={ columnClass }
 					attributes={ columnAttributes }
 					focused={ focus }
@@ -88,4 +94,4 @@ class ImageColumns extends Component {
 	}
 }
 
-export default ImageColumns;
+export default ImageColumnBlock;

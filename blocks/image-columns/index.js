@@ -2,7 +2,7 @@
  * Registers bio block.
  */
 
-import ImageColumns from "./image-columns";
+import ImageColumnBlock from "./block";
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -51,7 +51,7 @@ registerBlockType( 'rtgb/image-columns', {
 		}
 	},
 
-	edit: ImageColumns,
+	edit: ImageColumnBlock,
 
 	save: props => {
 		const columns = props.attributes.columns || [];

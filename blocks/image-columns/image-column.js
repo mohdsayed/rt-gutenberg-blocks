@@ -5,7 +5,7 @@
 const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { Editable, MediaUpload } = wp.blocks;
-const { Button } = wp.components;
+const { Button, IconButton, Placeholder } = wp.components;
 
 class ImageColumn extends Component {
 
@@ -14,21 +14,42 @@ class ImageColumn extends Component {
 	}
 
 	render() {
-		const { attributes, focused, setFocus, index } = this.props;
+		const { attributes, focused, setFocus, index, onRemove } = this.props;
 		const focusedEditable = focused ? focused.editable || `${ index }-title` : null;
 
 		return (
 			<div className={ this.props.className } key="image-columns-container" >
-				<MediaUpload
-					onSelect={ this.props.onSelectImage }
-					type="image"
-					value={ attributes.mediaID }
-					render={ ( { open } ) => (
-						<Button className={ attributes.mediaID ? 'image-button' : 'button button-large' } onClick={ open } >
-							{ ! attributes.mediaID ? __( 'Upload Image' ) : <img src={ attributes.mediaURL } /> }
-						</Button>
-					) }
-				/>
+				{ attributes.mediaID && (
+					<figure>
+						<IconButton
+							key='icon-button'
+							icon="no-alt"
+							onClick={ onRemove }
+							className="rt-remove-image-button"
+							label={ __( 'Remove Image' ) }
+						/>
+						<img src={ attributes.mediaURL } />
+					</figure>
+				) }
+				{ ! attributes.mediaID && (
+					<Placeholder
+						key="placeholder"
+						icon="media-image"
+						label={ __( 'Thumbnail' ) }
+						instructions={ __( 'Upload or choose from media library' ) }
+						className='rt-image-placeholder'>
+						<MediaUpload
+							onSelect={ this.props.onSelectImage }
+							type="image"
+							value={ attributes.mediaID }
+							render={ ( { open } ) => (
+								<Button key='button' className={ attributes.mediaID ? 'image-button' : 'button button-large' } onClick={ open } >
+									{ ! attributes.mediaID ? __( 'Choose' ) : '' }
+								</Button>
+							) }
+						/>
+					</Placeholder>
+				) }
 				<Editable
 					tagName='h3'
 					onChange={ this.props.onChangeTitle }
