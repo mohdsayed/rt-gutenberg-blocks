@@ -41,6 +41,7 @@ class ImageColumns extends Component {
 
 	render() {
 		const { focus, attributes, setAttributes } = this.props;
+		const imageColumns = [];
 
 		const inspectorControls = focus && (
 			<InspectorControls key="inspector">
@@ -49,27 +50,34 @@ class ImageColumns extends Component {
 					label={ __( 'Columns' ) }
 					value={ attributes.columns }
 					onChange={ ( value ) => setAttributes( { columns: value } ) }
-					min={ 2 }
+					min={ 1 }
 					max={ 5 }
 				/>
 			</InspectorControls>
 		);
 
-		const column = (
-			<ImageColumn
-				onSelectImage={ this.onSelectImage }
-				onChangeTitle={ this.onChangeTitle }
-				onChangeContent={ this.onChangeContent }
-				onChangeReadMore = { this.onChangeReadMore }
-				attributes={ attributes }
-				focus={ focus }
-			/>
-		);
+		for ( let i = 0; i < attributes.columns; i++ ) {
+			let columnClass = `column-${ i } single-column`;
+			let imageColumnKey = `column-${ i }`;
+
+			imageColumns.push(
+				<ImageColumn
+					onSelectImage={ this.onSelectImage }
+					onChangeTitle={ this.onChangeTitle }
+					onChangeContent={ this.onChangeContent }
+					onChangeReadMore = { this.onChangeReadMore }
+					className={ columnClass }
+					attributes={ attributes }
+					focus={ focus }
+					key={ imageColumnKey }
+				/>
+			);
+		}
 
 		return [
 			inspectorControls,
-			<div key='image-columns'>
-				{ column }
+			<div className='rt-image-columns' key='image-columns'>
+				{ imageColumns }
 			</div>
 		];
 	}

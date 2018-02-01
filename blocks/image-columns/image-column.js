@@ -14,7 +14,7 @@ class ImageColumn extends Component {
 	}
 
 	render() {
-		const { attributes } = this.props;
+		const { attributes, focus } = this.props;
 
 		return (
 			<div className={ this.props.className } key="image-columns-container" >
@@ -31,19 +31,19 @@ class ImageColumn extends Component {
 				<Editable
 					onChange={ this.props.onChangeTitle }
 					value=''
-					focus={ this.props.focus }
+					focus={ focus }
 					placeholder={ __( 'Enter Title...' ) }
 				/>
 				<Editable
 					onChange={ this.props.onChangeContent }
 					value=''
-					focus={ this.props.focus }
+					focus={ focus }
 					placeholder={ __( 'Enter Content...' ) }
 				/>
 				<Editable
 					onChange={ this.props.onChangeReadMore }
 					value=''
-					focus={ this.props.focus }
+					focus={ focus }
 					placeholder={ __( 'Read More Text and Link...' ) }
 				/>
 			</div>
