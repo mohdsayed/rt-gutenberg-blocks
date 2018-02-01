@@ -27,7 +27,7 @@ class ImageColumns extends Component {
 
 	setColumnsAttributes( index, dataObject ) {
 		const { attributes } = this.props;
-		let existingData = attributes.content.slice( 0 ) || [];
+		let existingData = attributes.columns.slice( 0 ) || [];
 
 		if ( existingData[ index ] ) {
 			existingData[ index ] = _.extend( existingData[ index ], dataObject );
@@ -36,7 +36,7 @@ class ImageColumns extends Component {
 		}
 
 		this.props.setAttributes( {
-			content: existingData
+			columns: existingData
 		} );
 	}
 
@@ -49,19 +49,19 @@ class ImageColumns extends Component {
 				<h3>{ __( 'Settings' ) }</h3>
 				<RangeControl
 					label={ __( 'Columns' ) }
-					value={ attributes.columns }
-					onChange={ ( value ) => setAttributes( { columns: value } ) }
+					value={ attributes.columnCount }
+					onChange={ ( value ) => setAttributes( { columnCount: value } ) }
 					min={ 1 }
 					max={ 5 }
 				/>
 			</InspectorControls>
 		);
 
-		for ( let index = 0; index < attributes.columns; index++ ) {
+		for ( let index = 0; index < attributes.columnCount; index++ ) {
 			let columnClass = `column-${ index } single-column`;
 			let imageColumnKey = `column-${ index }`;
 
-			const columnAttributes = attributes.content[ index ] || {};
+			const columnAttributes = attributes.columns[ index ] || {};
 
 			imageColumns.push(
 				<ImageColumn

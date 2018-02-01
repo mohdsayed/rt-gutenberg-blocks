@@ -640,31 +640,39 @@ registerBlockType('rtgb/image-columns', {
 	category: 'layout',
 
 	attributes: {
-		content: {
+		columns: {
 			type: 'array',
 			source: 'query',
+			selector: 'li',
 			query: {
 				mediaID: {
 					type: 'number',
-					source: 'attribute'
+					source: 'attribute',
+					selector: '.rt-header-content img',
+					attribute: 'data-media-id'
 				},
 				mediaURL: {
 					type: 'string',
-					source: 'attribute'
+					source: 'attribute',
+					selector: '.rt-header-content img',
+					attribute: 'src'
 				},
 				title: {
-					source: 'attribute'
+					source: 'text',
+					selector: '.rt-column-title'
 				},
 				content: {
-					source: 'attribute'
+					source: 'children',
+					selector: '.rt-column-content'
 				},
 				readMore: {
-					source: 'attribute'
+					source: 'children',
+					selector: '.rt-read-more'
 				}
 			},
 			default: [{}, {}, {}]
 		},
-		columns: {
+		columnCount: {
 			type: 'number',
 			default: 3
 		}
@@ -673,13 +681,52 @@ registerBlockType('rtgb/image-columns', {
 	edit: __WEBPACK_IMPORTED_MODULE_0__image_columns__["a" /* default */],
 
 	save: function save(props) {
-		var className = props.className,
-		    mediaURL = props.attributes.mediaURL;
+		var columns = props.attributes.columns || [];
+		var className = props.className;
+		var imageColumns = [];
+
+		if (!columns.length) {
+			return null;
+		}
+
+		_.each(columns, function (column, index) {
+			var columnClass = 'rt-column rt-column-' + index;
+			var columnKey = 'rt-column-' + index;
+
+			imageColumns.push(wp.element.createElement(
+				'li',
+				{ key: columnKey, className: columnClass },
+				wp.element.createElement(
+					'figure',
+					{ className: 'rt-header-content' },
+					wp.element.createElement('img', { src: column.mediaURL, 'data-media-id': column.mediaID })
+				),
+				wp.element.createElement(
+					'h3',
+					{ className: 'rt-column-title' },
+					column.title
+				),
+				wp.element.createElement(
+					'div',
+					{ className: 'rt-column-content' },
+					column.content
+				),
+				wp.element.createElement(
+					'div',
+					{ className: 'rt-read-more' },
+					column.readMore
+				)
+			));
+		});
 
 		return wp.element.createElement(
 			'div',
 			{ className: className },
-			mediaURL && wp.element.createElement('img', { className: 'recipe-image', src: mediaURL })
+			wp.element.createElement(
+				'ul',
+				{ key: 'rt-image-columns' },
+				imageColumns
+			)
 		);
 	}
 });
@@ -736,7 +783,7 @@ var ImageColumns = function (_Component) {
 		value: function setColumnsAttributes(index, dataObject) {
 			var attributes = this.props.attributes;
 
-			var existingData = attributes.content.slice(0) || [];
+			var existingData = attributes.columns.slice(0) || [];
 
 			if (existingData[index]) {
 				existingData[index] = _.extend(existingData[index], dataObject);
@@ -745,7 +792,7 @@ var ImageColumns = function (_Component) {
 			}
 
 			this.props.setAttributes({
-				content: existingData
+				columns: existingData
 			});
 		}
 	}, {
@@ -770,9 +817,9 @@ var ImageColumns = function (_Component) {
 				),
 				wp.element.createElement(RangeControl, {
 					label: __('Columns'),
-					value: attributes.columns,
+					value: attributes.columnCount,
 					onChange: function onChange(value) {
-						return setAttributes({ columns: value });
+						return setAttributes({ columnCount: value });
 					},
 					min: 1,
 					max: 5
@@ -783,7 +830,7 @@ var ImageColumns = function (_Component) {
 				var columnClass = 'column-' + index + ' single-column';
 				var imageColumnKey = 'column-' + index;
 
-				var columnAttributes = attributes.content[index] || {};
+				var columnAttributes = attributes.columns[index] || {};
 
 				imageColumns.push(wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__image_column__["a" /* default */], {
 					onSelectImage: function onSelectImage(media) {
@@ -805,7 +852,7 @@ var ImageColumns = function (_Component) {
 				}));
 			};
 
-			for (var index = 0; index < attributes.columns; index++) {
+			for (var index = 0; index < attributes.columnCount; index++) {
 				_loop(index);
 			}
 
@@ -862,8 +909,6 @@ var ImageColumn = function (_Component) {
 			    attributes = _props.attributes,
 			    focus = _props.focus;
 
-
-			console.warn(attributes);
 
 			return wp.element.createElement(
 				"div",
