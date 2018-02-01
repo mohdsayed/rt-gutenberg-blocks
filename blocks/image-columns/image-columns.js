@@ -4,8 +4,10 @@
 
 const { __ } = wp.i18n;
 const { Component } = wp.element;
-const { Editable, MediaUpload, InspectorControls } = wp.blocks;
-const { Button } = wp.components;
+const { InspectorControls } = wp.blocks;
+const { RangeControl } = wp.blocks.InspectorControls;
+
+import ImageColumn from './image-column';
 
 class ImageColumns extends Component {
 
@@ -34,50 +36,42 @@ class ImageColumns extends Component {
 	}
 
 	onChangeReadMore( readMore ) {
-		this.props.setAttributes( { content } );
+		this.props.setAttributes( { readMore } );
 	}
 
 	render() {
-		const { focus, attributes } = this.props;
+		const { focus, attributes, setAttributes } = this.props;
+
+		const inspectorControls = focus && (
+			<InspectorControls key="inspector">
+				<h3>{ __( 'Settings' ) }</h3>
+				<RangeControl
+					label={ __( 'Columns' ) }
+					value={ attributes.columns }
+					onChange={ ( value ) => setAttributes( { columns: value } ) }
+					min={ 2 }
+					max={ 5 }
+				/>
+			</InspectorControls>
+		);
 
 		const column = (
-			<div className={ this.props.className } key="image-columns-container" >
-				<MediaUpload
-					onSelect={ this.onSelectImage }
-					type="image"
-					value={ attributes.mediaID }
-					render={ ( { open } ) => (
-						<Button className={ attributes.mediaID ? 'image-button' : 'button button-large' } onClick={ open } >
-							{ ! attributes.mediaID ? __( 'Upload Image' ) : <img src={ attributes.mediaURL } /> }
-						</Button>
-					) }
-				/>
-				<Editable
-					onChange={ this.onChangeTitle }
-					value=''
-					focus={ focus }
-					placeholder={ __( 'Enter Title...' ) }
-				/>
-				<Editable
-					onChange={ this.onChangeContent }
-					value=''
-					focus={ focus }
-					placeholder={ __( 'Enter Content...' ) }
-				/>
-				<Editable
-					onChange={ this.onChangeReadMore }
-					value=''
-					focus={ focus }
-					placeholder={ __( 'Read More Text and Link...' ) }
-				/>
-			</div>
+			<ImageColumn
+				onSelectImage={ this.onSelectImage }
+				onChangeTitle={ this.onChangeTitle }
+				onChangeContent={ this.onChangeContent }
+				onChangeReadMore = { this.onChangeReadMore }
+				attributes={ attributes }
+				focus={ focus }
+			/>
 		);
 
-		return (
-			<div>
+		return [
+			inspectorControls,
+			<div key='image-columns'>
 				{ column }
 			</div>
-		);
+		];
 	}
 }
 
