@@ -13,31 +13,39 @@ registerBlockType( 'rtgb/image-columns', {
 	category: 'layout',
 
 	attributes: {
-		content: {
+		columns: {
 			type: 'array',
 			source: 'query',
+			selector: 'li',
 			query: {
 				mediaID: {
 					type: 'number',
-					source: 'attribute'
+					source: 'attribute',
+					selector: '.rt-header-content img',
+					attribute: 'data-media-id'
 				},
 				mediaURL: {
 					type: 'string',
-					source: 'attribute'
+					source: 'attribute',
+					selector: '.rt-header-content img',
+					attribute: 'src'
 				},
 				title: {
-					source: 'attribute'
+					source: 'text',
+					selector: '.rt-column-title'
 				},
 				content: {
-					source: 'attribute'
+					source: 'children',
+					selector: '.rt-column-content'
 				},
 				readMore: {
-					source: 'attribute'
+					source: 'children',
+					selector: '.rt-read-more'
 				},
 			},
 			default: [ {}, {}, {} ],
 		},
-		columns: {
+		columnCount: {
 			type: 'number',
 			default: 3
 		}
@@ -46,19 +54,41 @@ registerBlockType( 'rtgb/image-columns', {
 	edit: ImageColumns,
 
 	save: props => {
-		const {
-			className,
-			attributes: {
-				mediaURL,
-			}
-		} = props;
+		const columns = props.attributes.columns || [];
+		const className = props.className;
+		const imageColumns = [];
+
+		if ( ! columns.length ) {
+			return null;
+		}
+
+		_.each( columns, function( column, index ) {
+			let columnClass = `rt-column rt-column-${ index }`;
+			let columnKey = `rt-column-${ index }`;
+
+			imageColumns.push(
+				<li key={ columnKey } className={ columnClass }>
+					<figure className="rt-header-content">
+						<img src={ column.mediaURL } data-media-id={ column.mediaID } />
+					</figure>
+					<h3 className='rt-column-title' >
+						{ column.title }
+					</h3>
+					<div className="rt-column-content">
+						{ column.content }
+					</div>
+					<div className="rt-read-more">
+						{ column.readMore }
+					</div>
+				</li>
+			);
+		} );
+
 		return (
 			<div className={ className }>
-				{
-					mediaURL && (
-						<img className="recipe-image" src={ mediaURL } />
-					)
-				}
+				<ul key='rt-image-columns' >
+					{ imageColumns }
+				</ul>
 			</div>
 		);
 	}
