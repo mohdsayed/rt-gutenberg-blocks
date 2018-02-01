@@ -61,6 +61,8 @@ class ImageColumns extends Component {
 			let columnClass = `column-${ index } single-column`;
 			let imageColumnKey = `column-${ index }`;
 
+			const columnAttributes = attributes.content[ index ] || {};
+
 			imageColumns.push(
 				<ImageColumn
 					onSelectImage={ ( media ) => this.onSelectImage( index, media ) }
@@ -68,7 +70,7 @@ class ImageColumns extends Component {
 					onChangeContent={ ( content ) => this.setColumnsAttributes( index, { content } ) }
 					onChangeReadMore = { ( readMore ) => this.setColumnsAttributes( index, { readMore } ) }
 					className={ columnClass }
-					attributes={ attributes }
+					attributes={ columnAttributes }
 					focus={ focus }
 					key={ imageColumnKey }
 				/>

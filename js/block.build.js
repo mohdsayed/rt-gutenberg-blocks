@@ -783,6 +783,8 @@ var ImageColumns = function (_Component) {
 				var columnClass = 'column-' + index + ' single-column';
 				var imageColumnKey = 'column-' + index;
 
+				var columnAttributes = attributes.content[index] || {};
+
 				imageColumns.push(wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__image_column__["a" /* default */], {
 					onSelectImage: function onSelectImage(media) {
 						return _this2.onSelectImage(index, media);
@@ -797,7 +799,7 @@ var ImageColumns = function (_Component) {
 						return _this2.setColumnsAttributes(index, { readMore: readMore });
 					},
 					className: columnClass,
-					attributes: attributes,
+					attributes: columnAttributes,
 					focus: focus,
 					key: imageColumnKey
 				}));
@@ -861,6 +863,8 @@ var ImageColumn = function (_Component) {
 			    focus = _props.focus;
 
 
+			console.warn(attributes);
+
 			return wp.element.createElement(
 				"div",
 				{ className: this.props.className, key: "image-columns-container" },
@@ -879,19 +883,19 @@ var ImageColumn = function (_Component) {
 				}),
 				wp.element.createElement(Editable, {
 					onChange: this.props.onChangeTitle,
-					value: "",
+					value: attributes.title,
 					focus: focus,
 					placeholder: __('Enter Title...')
 				}),
 				wp.element.createElement(Editable, {
 					onChange: this.props.onChangeContent,
-					value: "",
+					value: attributes.content,
 					focus: focus,
 					placeholder: __('Enter Content...')
 				}),
 				wp.element.createElement(Editable, {
 					onChange: this.props.onChangeReadMore,
-					value: "",
+					value: attributes.readMore,
 					focus: focus,
 					placeholder: __('Read More Text and Link...')
 				})

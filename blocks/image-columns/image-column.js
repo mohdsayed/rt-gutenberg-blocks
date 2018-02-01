@@ -30,19 +30,19 @@ class ImageColumn extends Component {
 				/>
 				<Editable
 					onChange={ this.props.onChangeTitle }
-					value=''
+					value={ attributes.title }
 					focus={ focus }
 					placeholder={ __( 'Enter Title...' ) }
 				/>
 				<Editable
 					onChange={ this.props.onChangeContent }
-					value=''
+					value={ attributes.content }
 					focus={ focus }
 					placeholder={ __( 'Enter Content...' ) }
 				/>
 				<Editable
 					onChange={ this.props.onChangeReadMore }
-					value=''
+					value={ attributes.readMore }
 					focus={ focus }
 					placeholder={ __( 'Read More Text and Link...' ) }
 				/>
