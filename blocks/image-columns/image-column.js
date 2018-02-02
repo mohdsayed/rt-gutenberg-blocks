@@ -76,14 +76,16 @@ class ImageColumn extends Component {
 					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-content` } ) ) }
 					inlineToolbar
 				/>
-				<Editable
-					onChange={ this.props.onChangeReadMore }
-					value={ attributes.readMore ? attributes.readMore : __( 'Read More' ) }
-					placeholder={ __( 'Read More Text and Link...' ) }
-					focus={ focusedEditable === `${ index }-readmore` }
-					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-readmore` } ) ) }
-					inlineToolbar
-				/>
+				{ this.props.showReadMore && (
+					<Editable
+						onChange={ this.props.onChangeReadMore }
+						value={ attributes.readMore ? attributes.readMore : __( 'Read More' ) }
+						placeholder={ __( 'Read More Text and Link...' ) }
+						focus={ focusedEditable === `${ index }-readmore` }
+						onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-readmore` } ) ) }
+						inlineToolbar
+					/>
+				) }
 			</div>
 		);
 	}

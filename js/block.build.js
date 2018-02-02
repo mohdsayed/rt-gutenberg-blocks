@@ -683,6 +683,10 @@ registerBlockType('rtgb/image-columns', {
 		showSubHeading: {
 			type: 'boolean',
 			default: false
+		},
+		showReadMore: {
+			type: 'boolean',
+			default: true
 		}
 	},
 
@@ -729,7 +733,7 @@ registerBlockType('rtgb/image-columns', {
 					{ className: 'rt-column-content' },
 					column.content
 				),
-				wp.element.createElement(
+				props.attributes.showReadMore && wp.element.createElement(
 					'div',
 					{ className: 'rt-read-more' },
 					column.readMore
@@ -785,6 +789,7 @@ var ImageColumnBlock = function (_Component) {
 		_this.setColumnsAttributes = _this.setColumnsAttributes.bind(_this);
 		_this.onRemoveImage = _this.onRemoveImage.bind(_this);
 		_this.toggleShowSubHeading = _this.toggleShowSubHeading.bind(_this);
+		_this.toggleShowReadMore = _this.toggleShowReadMore.bind(_this);
 		return _this;
 	}
 
@@ -826,6 +831,13 @@ var ImageColumnBlock = function (_Component) {
 			});
 		}
 	}, {
+		key: 'toggleShowReadMore',
+		value: function toggleShowReadMore() {
+			this.props.setAttributes({
+				showReadMore: !this.props.attributes.showReadMore
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this2 = this;
@@ -859,6 +871,11 @@ var ImageColumnBlock = function (_Component) {
 					label: __('Show Sub Heading'),
 					checked: attributes.showSubHeading,
 					onChange: this.toggleShowSubHeading
+				}),
+				wp.element.createElement(ToggleControl, {
+					label: __('Show Read More'),
+					checked: attributes.showReadMore,
+					onChange: this.toggleShowReadMore
 				})
 			);
 
@@ -890,6 +907,7 @@ var ImageColumnBlock = function (_Component) {
 					className: columnClass,
 					attributes: columnAttributes,
 					showSubHeading: attributes.showSubHeading,
+					showReadMore: attributes.showReadMore,
 					focused: focus,
 					setFocus: setFocus,
 					key: imageColumnKey,
@@ -1029,7 +1047,7 @@ var ImageColumn = function (_Component) {
 					},
 					inlineToolbar: true
 				}),
-				wp.element.createElement(Editable, {
+				this.props.showReadMore && wp.element.createElement(Editable, {
 					onChange: this.props.onChangeReadMore,
 					value: attributes.readMore ? attributes.readMore : __('Read More'),
 					placeholder: __('Read More Text and Link...'),

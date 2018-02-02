@@ -56,6 +56,10 @@ registerBlockType( 'rtgb/image-columns', {
 		showSubHeading: {
 			type: 'boolean',
 			default: false
+		},
+		showReadMore: {
+			type: 'boolean',
+			default: true
 		}
 	},
 
@@ -95,9 +99,11 @@ registerBlockType( 'rtgb/image-columns', {
 					<div className="rt-column-content">
 						{ column.content }
 					</div>
-					<div className="rt-read-more">
-						{ column.readMore }
-					</div>
+					{ props.attributes.showReadMore && (
+						<div className="rt-read-more">
+							{ column.readMore }
+						</div>
+					) }
 				</li>
 			);
 		} );

@@ -18,6 +18,7 @@ class ImageColumnBlock extends Component {
 		this.setColumnsAttributes = this.setColumnsAttributes.bind( this );
 		this.onRemoveImage = this.onRemoveImage.bind( this );
 		this.toggleShowSubHeading = this.toggleShowSubHeading.bind( this );
+		this.toggleShowReadMore = this.toggleShowReadMore.bind( this );
 	}
 
 	onSelectImage( index, media ) {
@@ -52,6 +53,12 @@ class ImageColumnBlock extends Component {
 		} );
 	}
 
+	toggleShowReadMore() {
+		this.props.setAttributes( {
+			showReadMore: ! this.props.attributes.showReadMore
+		} );
+	}
+
 	render() {
 		const { focus, setFocus, attributes, setAttributes } = this.props;
 		const imageColumns = [];
@@ -70,6 +77,11 @@ class ImageColumnBlock extends Component {
 					label={ __( 'Show Sub Heading' ) }
 					checked={ attributes.showSubHeading }
 					onChange={ this.toggleShowSubHeading }
+				/>
+				<ToggleControl
+					label={ __( 'Show Read More' ) }
+					checked={ attributes.showReadMore }
+					onChange={ this.toggleShowReadMore }
 				/>
 			</InspectorControls>
 		);
@@ -91,6 +103,7 @@ class ImageColumnBlock extends Component {
 					className={ columnClass }
 					attributes={ columnAttributes }
 					showSubHeading={ attributes.showSubHeading }
+					showReadMore={ attributes.showReadMore }
 					focused={ focus }
 					setFocus={ setFocus }
 					key={ imageColumnKey }
