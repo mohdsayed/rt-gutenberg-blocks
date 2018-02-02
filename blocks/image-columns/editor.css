@@ -16,7 +16,7 @@
 .rt-image-columns .rt-remove-image-button {
 	position: absolute;
 	top: 4px;
-	right: 0;
+	right: 4px;
 	display: none;
 	color: #00a0d2;
 	outline: 4px solid #00a0d2;

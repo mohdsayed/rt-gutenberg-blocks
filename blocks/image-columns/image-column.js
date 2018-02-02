@@ -58,6 +58,16 @@ class ImageColumn extends Component {
 					focus={ focusedEditable === `${ index }-title` }
 					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-title` } ) ) }
 				/>
+				{ this.props.showSubHeading && (
+					<Editable
+						onChange={ this.props.onChangeSubTitle }
+						value={ attributes.subHeading }
+						placeholder={ __( 'Enter Sub Title...' ) }
+						focus={ focusedEditable === `${ index }-sub-title` }
+						onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-sub-title` } ) ) }
+						inlineToolbar
+					/>
+				) }
 				<Editable
 					onChange={ this.props.onChangeContent }
 					value={ attributes.content }

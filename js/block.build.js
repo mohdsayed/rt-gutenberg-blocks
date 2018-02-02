@@ -658,8 +658,12 @@ registerBlockType('rtgb/image-columns', {
 					attribute: 'src'
 				},
 				title: {
-					source: 'text',
+					source: 'children',
 					selector: '.rt-column-title'
+				},
+				subHeading: {
+					source: 'children',
+					selector: '.rt-column-sub-heading'
 				},
 				content: {
 					source: 'children',
@@ -675,6 +679,10 @@ registerBlockType('rtgb/image-columns', {
 		columnCount: {
 			type: 'number',
 			default: 3
+		},
+		showSubHeading: {
+			type: 'boolean',
+			default: false
 		}
 	},
 
@@ -711,6 +719,11 @@ registerBlockType('rtgb/image-columns', {
 					{ className: 'rt-column-title' },
 					column.title
 				),
+				props.attributes.showSubHeading && wp.element.createElement(
+					'p',
+					{ className: 'rt-column-sub-heading' },
+					column.subHeading
+				),
 				wp.element.createElement(
 					'div',
 					{ className: 'rt-column-content' },
@@ -725,13 +738,9 @@ registerBlockType('rtgb/image-columns', {
 		});
 
 		return wp.element.createElement(
-			'div',
-			{ className: className },
-			wp.element.createElement(
-				'ul',
-				{ key: 'rt-image-columns' },
-				imageColumns
-			)
+			'ul',
+			{ className: className, key: 'rt-image-columns' },
+			imageColumns
 		);
 	}
 });
@@ -757,7 +766,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var __ = wp.i18n.__;
 var Component = wp.element.Component;
 var InspectorControls = wp.blocks.InspectorControls;
-var RangeControl = wp.blocks.InspectorControls.RangeControl;
+var _wp$blocks$InspectorC = wp.blocks.InspectorControls,
+    RangeControl = _wp$blocks$InspectorC.RangeControl,
+    ToggleControl = _wp$blocks$InspectorC.ToggleControl;
 
 
 
@@ -773,6 +784,7 @@ var ImageColumnBlock = function (_Component) {
 		_this.onSelectImage = _this.onSelectImage.bind(_this);
 		_this.setColumnsAttributes = _this.setColumnsAttributes.bind(_this);
 		_this.onRemoveImage = _this.onRemoveImage.bind(_this);
+		_this.toggleShowSubHeading = _this.toggleShowSubHeading.bind(_this);
 		return _this;
 	}
 
@@ -807,6 +819,13 @@ var ImageColumnBlock = function (_Component) {
 			this.setColumnsAttributes(index, { mediaID: '', mediaURL: '' });
 		}
 	}, {
+		key: 'toggleShowSubHeading',
+		value: function toggleShowSubHeading() {
+			this.props.setAttributes({
+				showSubHeading: !this.props.attributes.showSubHeading
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this2 = this;
@@ -835,6 +854,11 @@ var ImageColumnBlock = function (_Component) {
 					},
 					min: 1,
 					max: 5
+				}),
+				wp.element.createElement(ToggleControl, {
+					label: __('Show Sub Heading'),
+					checked: attributes.showSubHeading,
+					onChange: this.toggleShowSubHeading
 				})
 			);
 
@@ -851,6 +875,9 @@ var ImageColumnBlock = function (_Component) {
 					onChangeTitle: function onChangeTitle(title) {
 						return _this2.setColumnsAttributes(index, { title: title });
 					},
+					onChangeSubTitle: function onChangeSubTitle(subHeading) {
+						return _this2.setColumnsAttributes(index, { subHeading: subHeading });
+					},
 					onChangeContent: function onChangeContent(content) {
 						return _this2.setColumnsAttributes(index, { content: content });
 					},
@@ -862,6 +889,7 @@ var ImageColumnBlock = function (_Component) {
 					},
 					className: columnClass,
 					attributes: columnAttributes,
+					showSubHeading: attributes.showSubHeading,
 					focused: focus,
 					setFocus: setFocus,
 					key: imageColumnKey,
@@ -980,6 +1008,16 @@ var ImageColumn = function (_Component) {
 					onFocus: function onFocus(focus) {
 						return setFocus(_.extend({}, focus, { editable: index + "-title" }));
 					}
+				}),
+				this.props.showSubHeading && wp.element.createElement(Editable, {
+					onChange: this.props.onChangeSubTitle,
+					value: attributes.subHeading,
+					placeholder: __('Enter Sub Title...'),
+					focus: focusedEditable === index + "-sub-title",
+					onFocus: function onFocus(focus) {
+						return setFocus(_.extend({}, focus, { editable: index + "-sub-title" }));
+					},
+					inlineToolbar: true
 				}),
 				wp.element.createElement(Editable, {
 					onChange: this.props.onChangeContent,

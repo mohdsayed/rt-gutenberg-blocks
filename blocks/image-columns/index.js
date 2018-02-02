@@ -31,8 +31,12 @@ registerBlockType( 'rtgb/image-columns', {
 					attribute: 'src'
 				},
 				title: {
-					source: 'text',
+					source: 'children',
 					selector: '.rt-column-title'
+				},
+				subHeading: {
+					source: 'children',
+					selector: '.rt-column-sub-heading'
 				},
 				content: {
 					source: 'children',
@@ -48,6 +52,10 @@ registerBlockType( 'rtgb/image-columns', {
 		columnCount: {
 			type: 'number',
 			default: 3
+		},
+		showSubHeading: {
+			type: 'boolean',
+			default: false
 		}
 	},
 
@@ -79,6 +87,11 @@ registerBlockType( 'rtgb/image-columns', {
 					<h3 className='rt-column-title' >
 						{ column.title }
 					</h3>
+					{ props.attributes.showSubHeading && (
+						<p className='rt-column-sub-heading'>
+							{ column.subHeading }
+						</p>
+					) }
 					<div className="rt-column-content">
 						{ column.content }
 					</div>
@@ -90,11 +103,9 @@ registerBlockType( 'rtgb/image-columns', {
 		} );
 
 		return (
-			<div className={ className }>
-				<ul key='rt-image-columns' >
-					{ imageColumns }
-				</ul>
-			</div>
+			<ul className={ className } key='rt-image-columns' >
+				{ imageColumns }
+			</ul>
 		);
 	}
 } );

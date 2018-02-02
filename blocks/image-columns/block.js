@@ -5,7 +5,7 @@
 const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { InspectorControls } = wp.blocks;
-const { RangeControl } = wp.blocks.InspectorControls;
+const { RangeControl, ToggleControl } = wp.blocks.InspectorControls;
 
 import ImageColumn from './image-column';
 
@@ -17,6 +17,7 @@ class ImageColumnBlock extends Component {
 		this.onSelectImage = this.onSelectImage.bind( this );
 		this.setColumnsAttributes = this.setColumnsAttributes.bind( this );
 		this.onRemoveImage = this.onRemoveImage.bind( this );
+		this.toggleShowSubHeading = this.toggleShowSubHeading.bind( this );
 	}
 
 	onSelectImage( index, media ) {
@@ -45,6 +46,12 @@ class ImageColumnBlock extends Component {
 		this.setColumnsAttributes( index, { mediaID: '', mediaURL: '' } );
 	}
 
+	toggleShowSubHeading() {
+		this.props.setAttributes( {
+			showSubHeading: ! this.props.attributes.showSubHeading
+		} );
+	}
+
 	render() {
 		const { focus, setFocus, attributes, setAttributes } = this.props;
 		const imageColumns = [];
@@ -59,6 +66,11 @@ class ImageColumnBlock extends Component {
 					min={ 1 }
 					max={ 5 }
 				/>
+				<ToggleControl
+					label={ __( 'Show Sub Heading' ) }
+					checked={ attributes.showSubHeading }
+					onChange={ this.toggleShowSubHeading }
+				/>
 			</InspectorControls>
 		);
 
@@ -72,11 +84,13 @@ class ImageColumnBlock extends Component {
 				<ImageColumn
 					onSelectImage={ ( media ) => this.onSelectImage( index, media ) }
 					onChangeTitle={ ( title ) => this.setColumnsAttributes( index, { title } ) }
+					onChangeSubTitle={ ( subHeading ) => this.setColumnsAttributes( index, { subHeading } ) }
 					onChangeContent={ ( content ) => this.setColumnsAttributes( index, { content } ) }
 					onChangeReadMore = { ( readMore ) => this.setColumnsAttributes( index, { readMore } ) }
 					onRemove={ () => { this.onRemoveImage( index ) } }
 					className={ columnClass }
 					attributes={ columnAttributes }
+					showSubHeading={ attributes.showSubHeading }
 					focused={ focus }
 					setFocus={ setFocus }
 					key={ imageColumnKey }
