@@ -1,12 +1,12 @@
 /**
- * Creates editable block.
+ * Creates RichText block.
  */
 
 const { __ } = wp.i18n;
-const { registerBlockType, Editable, source: { children } } = wp.blocks;
+const { registerBlockType, RichText, source: { children } } = wp.blocks;
 
-registerBlockType( 'rtgb/rt-editable-block', {
-	title: __( 'RT Editable Block' ),
+registerBlockType( 'rtgb/rt-RichText-block', {
+	title: __( 'RT RichText Block' ),
 	icon: 'universal-access-alt',
 	category: 'common',
 	attributes: {
@@ -24,7 +24,7 @@ registerBlockType( 'rtgb/rt-editable-block', {
 		return (
 			<div className={ props.className }>
 				<h3>Enter Details</h3>
-				<Editable
+				<RichText
 					className={ className }
 					placeholder={ __( 'Write here...' ) }
 					onChange={ onChangeContent }

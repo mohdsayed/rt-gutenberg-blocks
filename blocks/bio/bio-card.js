@@ -3,7 +3,7 @@
  */
 
 const { Component } = wp.element;
-const { Editable, MediaUpload, InspectorControls } = wp.blocks;
+const { RichText, MediaUpload, InspectorControls } = wp.blocks;
 const { Button } = wp.components;
 const { ToggleControl } = wp.blocks.InspectorControls;
 const { __ } = wp.i18n;
@@ -27,7 +27,7 @@ class BioCard extends Component {
 	}
 
 	onFocusTitle( focus ) {
-		this.props.setFocus( _.extend( {}, focus, { editable: 'title' } ) );
+		this.props.setFocus( _.extend( {}, focus, { RichText: 'title' } ) );
 	}
 
 	onSelectImage( media ) {
@@ -42,7 +42,7 @@ class BioCard extends Component {
 	}
 
 	onFocusSocialLinks( focus ) {
-		this.props.setFocus( _.extend( {}, focus, { editable: 'socialLinks' } ) );
+		this.props.setFocus( _.extend( {}, focus, { RichText: 'socialLinks' } ) );
 	}
 
 	onChangeAboutYou( value ) {
@@ -50,7 +50,7 @@ class BioCard extends Component {
 	}
 
 	onFocusAboutYou( focus ) {
-		this.props.setFocus( _.extend( {}, focus, { editable: 'aboutYou' } ) );
+		this.props.setFocus( _.extend( {}, focus, { RichText: 'aboutYou' } ) );
 	}
 
 	onChangeExternalLinks( value ) {
@@ -58,7 +58,7 @@ class BioCard extends Component {
 	}
 
 	render() {
-		const focusedEditable = this.props.focus ? this.props.focus.editable || 'title' : null;
+		const focusedRichText = this.props.focus ? this.props.focus.RichText || 'title' : null;
 		const attributes = this.props.attributes;
 		const { focus } = this.props;
 
@@ -94,35 +94,35 @@ class BioCard extends Component {
 						/>
 					</div>
 					<div className="bio-top-right-container">
-						<Editable
+						<RichText
 							tagName="h2"
 							placeholder={ __( 'Write title…' ) }
 							value={ attributes.title }
 							onChange={ this.onChangeTitle }
-							focus={ focusedEditable === 'title' }
+							focus={ focusedRichText === 'title' }
 							onFocus={ this.onFocusTitle }
 						/>
-						<Editable
+						<RichText
 							tagName="div"
 							multiline="p"
 							className="about-you"
 							placeholder={ __( 'Write about you…' ) }
 							value={ attributes.aboutYou }
 							onChange={ this.onChangeAboutYou }
-							focus={ focusedEditable === 'aboutYou' }
+							focus={ focusedRichText === 'aboutYou' }
 							onFocus={ this.onFocusAboutYou }
 							inlineToolbar
 						/>
 					</div>
 				</div>
 				<h3>{ __( 'Social Links' ) }</h3>
-				<Editable
+				<RichText
 					tagName="ul"
 					multiline="li"
 					placeholder={ __( 'Enter social Links…' ) }
 					value={ attributes.socialLinks }
 					onChange={ this.onChangeSocialLinks }
-					focus={ focusedEditable === 'socialLinks' }
+					focus={ focusedRichText === 'socialLinks' }
 					onFocus={ this.onFocusSocialLinks }
 					className="social-links"
 					inlineToolbar

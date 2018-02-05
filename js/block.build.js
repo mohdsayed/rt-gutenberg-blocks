@@ -68,20 +68,81 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-__webpack_require__(3);
+__webpack_require__(2);
 __webpack_require__(4);
-__webpack_require__(6);
-__webpack_require__(9);
-module.exports = __webpack_require__(10);
+__webpack_require__(5);
+__webpack_require__(7);
+__webpack_require__(10);
+module.exports = __webpack_require__(11);
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+/**
+ * Contains simple block registration.
+ */
+
+var el = wp.element.createElement,
+    registerBlockType = wp.blocks.registerBlockType;
+
+registerBlockType('riad/alert', {
+	title: 'Alert Block',
+	icon: 'warning',
+	category: 'common',
+
+	attributes: {
+		type: {
+			type: 'string',
+			default: 'danger'
+		},
+		message: {
+			type: 'string',
+			source: 'html',
+			selector: 'p'
+		}
+	},
+
+	edit: function edit(props) {
+		var className = props.className,
+		    type = props.attributes.type,
+		    message = props.attributes.message;
+
+		function updateMessage(event) {
+			props.setAttributes({ message: event.target.value });
+		}
+
+		return el('p', { className: className + ' alert-' + type }, el('textarea', { value: message, onChange: updateMessage }));
+	},
+
+	transforms: {
+		to: {
+			type: 'block',
+			blocks: ['core/paragraph'],
+			transform: function transform(attrs) {
+				return wp.blocks.createBlock('riad/paragraph', {
+					content: attrs.message
+				});
+			}
+		}
+	},
+
+	save: function save(props) {
+		var type = props.attributes.type,
+		    message = props.attributes.message;
+
+		return el('p', { className: 'alert-' + type }, message);
+	}
+});
+
+/***/ }),
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bio_card__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bio_card__ = __webpack_require__(3);
 /**
  * Registers bio block.
  */
@@ -168,7 +229,7 @@ registerBlockType('rtgb/bio-block', {
 });
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -186,7 +247,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Component = wp.element.Component;
 var _wp$blocks = wp.blocks,
-    Editable = _wp$blocks.Editable,
+    RichText = _wp$blocks.RichText,
     MediaUpload = _wp$blocks.MediaUpload,
     InspectorControls = _wp$blocks.InspectorControls;
 var Button = wp.components.Button;
@@ -220,7 +281,7 @@ var BioCard = function (_Component) {
 	}, {
 		key: 'onFocusTitle',
 		value: function onFocusTitle(focus) {
-			this.props.setFocus(_.extend({}, focus, { editable: 'title' }));
+			this.props.setFocus(_.extend({}, focus, { RichText: 'title' }));
 		}
 	}, {
 		key: 'onSelectImage',
@@ -238,7 +299,7 @@ var BioCard = function (_Component) {
 	}, {
 		key: 'onFocusSocialLinks',
 		value: function onFocusSocialLinks(focus) {
-			this.props.setFocus(_.extend({}, focus, { editable: 'socialLinks' }));
+			this.props.setFocus(_.extend({}, focus, { RichText: 'socialLinks' }));
 		}
 	}, {
 		key: 'onChangeAboutYou',
@@ -248,7 +309,7 @@ var BioCard = function (_Component) {
 	}, {
 		key: 'onFocusAboutYou',
 		value: function onFocusAboutYou(focus) {
-			this.props.setFocus(_.extend({}, focus, { editable: 'aboutYou' }));
+			this.props.setFocus(_.extend({}, focus, { RichText: 'aboutYou' }));
 		}
 	}, {
 		key: 'onChangeExternalLinks',
@@ -258,7 +319,7 @@ var BioCard = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var focusedEditable = this.props.focus ? this.props.focus.editable || 'title' : null;
+			var focusedRichText = this.props.focus ? this.props.focus.RichText || 'title' : null;
 			var attributes = this.props.attributes;
 			var focus = this.props.focus;
 
@@ -308,22 +369,22 @@ var BioCard = function (_Component) {
 					wp.element.createElement(
 						'div',
 						{ className: 'bio-top-right-container' },
-						wp.element.createElement(Editable, {
+						wp.element.createElement(RichText, {
 							tagName: 'h2',
 							placeholder: __('Write title…'),
 							value: attributes.title,
 							onChange: this.onChangeTitle,
-							focus: focusedEditable === 'title',
+							focus: focusedRichText === 'title',
 							onFocus: this.onFocusTitle
 						}),
-						wp.element.createElement(Editable, {
+						wp.element.createElement(RichText, {
 							tagName: 'div',
 							multiline: 'p',
 							className: 'about-you',
 							placeholder: __('Write about you…'),
 							value: attributes.aboutYou,
 							onChange: this.onChangeAboutYou,
-							focus: focusedEditable === 'aboutYou',
+							focus: focusedRichText === 'aboutYou',
 							onFocus: this.onFocusAboutYou,
 							inlineToolbar: true
 						})
@@ -334,13 +395,13 @@ var BioCard = function (_Component) {
 					null,
 					__('Social Links')
 				),
-				wp.element.createElement(Editable, {
+				wp.element.createElement(RichText, {
 					tagName: 'ul',
 					multiline: 'li',
 					placeholder: __('Enter social Links…'),
 					value: attributes.socialLinks,
 					onChange: this.onChangeSocialLinks,
-					focus: focusedEditable === 'socialLinks',
+					focus: focusedRichText === 'socialLinks',
 					onFocus: this.onFocusSocialLinks,
 					className: 'social-links',
 					inlineToolbar: true
@@ -355,22 +416,22 @@ var BioCard = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (BioCard);
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 /**
- * Creates editable block.
+ * Creates RichText block.
  */
 
 var __ = wp.i18n.__;
 var _wp$blocks = wp.blocks,
     registerBlockType = _wp$blocks.registerBlockType,
-    Editable = _wp$blocks.Editable,
+    RichText = _wp$blocks.RichText,
     children = _wp$blocks.source.children;
 
 
-registerBlockType('rtgb/rt-editable-block', {
-	title: __('RT Editable Block'),
+registerBlockType('rtgb/rt-RichText-block', {
+	title: __('RT RichText Block'),
 	icon: 'universal-access-alt',
 	category: 'common',
 	attributes: {
@@ -397,7 +458,7 @@ registerBlockType('rtgb/rt-editable-block', {
 				null,
 				'Enter Details'
 			),
-			wp.element.createElement(Editable, {
+			wp.element.createElement(RichText, {
 				className: className,
 				placeholder: __('Write here...'),
 				onChange: onChangeContent,
@@ -426,12 +487,12 @@ registerBlockType('rtgb/rt-editable-block', {
 });
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__github_gist__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__github_gist__ = __webpack_require__(6);
 /**
  * Registers github gist block.
  *
@@ -521,7 +582,7 @@ registerBlockType('rtgb/github-gist', {
 });
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -618,12 +679,12 @@ var GithubGist = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (GithubGist);
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(8);
 /**
  * Registers bio block.
  */
@@ -750,11 +811,11 @@ registerBlockType('rtgb/image-columns', {
 });
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__image_column__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__image_column__ = __webpack_require__(9);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -933,7 +994,7 @@ var ImageColumnBlock = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (ImageColumnBlock);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -952,7 +1013,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var __ = wp.i18n.__;
 var Component = wp.element.Component;
 var _wp$blocks = wp.blocks,
-    Editable = _wp$blocks.Editable,
+    RichText = _wp$blocks.RichText,
     MediaUpload = _wp$blocks.MediaUpload;
 var _wp$components = wp.components,
     Button = _wp$components.Button,
@@ -978,7 +1039,7 @@ var ImageColumn = function (_Component) {
 			    index = _props.index,
 			    onRemove = _props.onRemove;
 
-			var focusedEditable = focused ? focused.editable || index + "-title" : null;
+			var focusedRichText = focused ? focused.RichText || index + "-title" : null;
 
 			return wp.element.createElement(
 				"div",
@@ -1017,43 +1078,43 @@ var ImageColumn = function (_Component) {
 						}
 					})
 				),
-				wp.element.createElement(Editable, {
+				wp.element.createElement(RichText, {
 					tagName: "h3",
 					onChange: this.props.onChangeTitle,
 					value: attributes.title,
 					placeholder: __('Enter Title...'),
-					focus: focusedEditable === index + "-title",
+					focus: focusedRichText === index + "-title",
 					onFocus: function onFocus(focus) {
-						return setFocus(_.extend({}, focus, { editable: index + "-title" }));
+						return setFocus(_.extend({}, focus, { RichText: index + "-title" }));
 					}
 				}),
-				this.props.showSubHeading && wp.element.createElement(Editable, {
+				this.props.showSubHeading && wp.element.createElement(RichText, {
 					onChange: this.props.onChangeSubTitle,
 					value: attributes.subHeading,
 					placeholder: __('Enter Sub Title...'),
-					focus: focusedEditable === index + "-sub-title",
+					focus: focusedRichText === index + "-sub-title",
 					onFocus: function onFocus(focus) {
-						return setFocus(_.extend({}, focus, { editable: index + "-sub-title" }));
+						return setFocus(_.extend({}, focus, { RichText: index + "-sub-title" }));
 					},
 					inlineToolbar: true
 				}),
-				wp.element.createElement(Editable, {
+				wp.element.createElement(RichText, {
 					onChange: this.props.onChangeContent,
 					value: attributes.content,
 					placeholder: __('Enter Content...'),
-					focus: focusedEditable === index + "-content",
+					focus: focusedRichText === index + "-content",
 					onFocus: function onFocus(focus) {
-						return setFocus(_.extend({}, focus, { editable: index + "-content" }));
+						return setFocus(_.extend({}, focus, { RichText: index + "-content" }));
 					},
 					inlineToolbar: true
 				}),
-				this.props.showReadMore && wp.element.createElement(Editable, {
+				this.props.showReadMore && wp.element.createElement(RichText, {
 					onChange: this.props.onChangeReadMore,
 					value: attributes.readMore ? attributes.readMore : __('Read More'),
 					placeholder: __('Read More Text and Link...'),
-					focus: focusedEditable === index + "-readmore",
+					focus: focusedRichText === index + "-readmore",
 					onFocus: function onFocus(focus) {
-						return setFocus(_.extend({}, focus, { editable: index + "-readmore" }));
+						return setFocus(_.extend({}, focus, { RichText: index + "-readmore" }));
 					},
 					inlineToolbar: true
 				})
@@ -1067,7 +1128,7 @@ var ImageColumn = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (ImageColumn);
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 /**
@@ -1078,7 +1139,6 @@ var el = wp.element.createElement;
 var __ = wp.i18n.__;
 var registerBlockType = wp.blocks.registerBlockType;
 
-var blockStyle = { backgroundColor: '#900', color: '#fff', padding: '20px' };
 
 registerBlockType('rtgb/simple-block', {
 
@@ -1100,12 +1160,12 @@ registerBlockType('rtgb/simple-block', {
 });
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(12);
 
 
 var __ = wp.i18n.__;
@@ -1209,11 +1269,11 @@ registerBlockType('rtgb/slider-block', {
 });
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__slide_image__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__slide_image__ = __webpack_require__(13);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1475,11 +1535,11 @@ var rtSliderBlock = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (rtSliderBlock);
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_classnames__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1593,7 +1653,7 @@ var SlideImage = function (_Component) {
 })(SlideImage));
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!

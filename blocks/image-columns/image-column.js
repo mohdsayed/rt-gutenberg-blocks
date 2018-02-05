@@ -4,7 +4,7 @@
 
 const { __ } = wp.i18n;
 const { Component } = wp.element;
-const { Editable, MediaUpload } = wp.blocks;
+const { RichText, MediaUpload } = wp.blocks;
 const { Button, IconButton, Placeholder } = wp.components;
 
 class ImageColumn extends Component {
@@ -15,7 +15,7 @@ class ImageColumn extends Component {
 
 	render() {
 		const { attributes, focused, setFocus, index, onRemove } = this.props;
-		const focusedEditable = focused ? focused.editable || `${ index }-title` : null;
+		const focusedRichText = focused ? focused.RichText || `${ index }-title` : null;
 
 		return (
 			<div className={ this.props.className } key="image-columns-container" >
@@ -50,39 +50,39 @@ class ImageColumn extends Component {
 						/>
 					</Placeholder>
 				) }
-				<Editable
+				<RichText
 					tagName='h3'
 					onChange={ this.props.onChangeTitle }
 					value={ attributes.title }
 					placeholder={ __( 'Enter Title...' ) }
-					focus={ focusedEditable === `${ index }-title` }
-					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-title` } ) ) }
+					focus={ focusedRichText === `${ index }-title` }
+					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { RichText: `${ index }-title` } ) ) }
 				/>
 				{ this.props.showSubHeading && (
-					<Editable
+					<RichText
 						onChange={ this.props.onChangeSubTitle }
 						value={ attributes.subHeading }
 						placeholder={ __( 'Enter Sub Title...' ) }
-						focus={ focusedEditable === `${ index }-sub-title` }
-						onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-sub-title` } ) ) }
+						focus={ focusedRichText === `${ index }-sub-title` }
+						onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { RichText: `${ index }-sub-title` } ) ) }
 						inlineToolbar
 					/>
 				) }
-				<Editable
+				<RichText
 					onChange={ this.props.onChangeContent }
 					value={ attributes.content }
 					placeholder={ __( 'Enter Content...' ) }
-					focus={ focusedEditable === `${ index }-content` }
-					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-content` } ) ) }
+					focus={ focusedRichText === `${ index }-content` }
+					onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { RichText: `${ index }-content` } ) ) }
 					inlineToolbar
 				/>
 				{ this.props.showReadMore && (
-					<Editable
+					<RichText
 						onChange={ this.props.onChangeReadMore }
 						value={ attributes.readMore ? attributes.readMore : __( 'Read More' ) }
 						placeholder={ __( 'Read More Text and Link...' ) }
-						focus={ focusedEditable === `${ index }-readmore` }
-						onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { editable: `${ index }-readmore` } ) ) }
+						focus={ focusedRichText === `${ index }-readmore` }
+						onFocus={ ( focus ) => setFocus( _.extend( {}, focus, { RichText: `${ index }-readmore` } ) ) }
 						inlineToolbar
 					/>
 				) }

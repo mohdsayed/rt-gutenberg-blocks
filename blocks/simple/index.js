@@ -5,7 +5,6 @@
 const el = wp.element.createElement;
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const blockStyle = { backgroundColor: '#900', color: '#fff', padding: '20px' };
 
 registerBlockType( 'rtgb/simple-block', {
 
