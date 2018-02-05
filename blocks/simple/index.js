@@ -17,10 +17,10 @@ registerBlockType( 'rtgb/simple-block', {
 	category: 'common',
 
 	edit: function() {
-		return el( 'p', { style: blockStyle }, 'Hello World.' );
+		return el( 'p', { className: 'simple-block' }, 'Hello World.' );
 	},
 
 	save: function() {
-		return el( 'p', { style: blockStyle }, 'Hello World Saved Content.' );
+		return el( 'p', { className: 'simple-block' }, 'Hello World Saved Content.' );
 	}
 } );

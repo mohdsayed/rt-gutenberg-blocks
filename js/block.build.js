@@ -68,81 +68,20 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-__webpack_require__(2);
+__webpack_require__(3);
 __webpack_require__(4);
-__webpack_require__(5);
-__webpack_require__(7);
-__webpack_require__(10);
-module.exports = __webpack_require__(11);
+__webpack_require__(6);
+__webpack_require__(9);
+module.exports = __webpack_require__(10);
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
-
-/**
- * Contains simple block registration.
- */
-
-var el = wp.element.createElement,
-    registerBlockType = wp.blocks.registerBlockType;
-
-registerBlockType('riad/alert', {
-	title: 'Alert Block',
-	icon: 'warning',
-	category: 'common',
-
-	attributes: {
-		type: {
-			type: 'string',
-			default: 'danger'
-		},
-		message: {
-			type: 'string',
-			source: 'html',
-			selector: 'p'
-		}
-	},
-
-	edit: function edit(props) {
-		var className = props.className,
-		    type = props.attributes.type,
-		    message = props.attributes.message;
-
-		function updateMessage(event) {
-			props.setAttributes({ message: event.target.value });
-		}
-
-		return el('p', { className: className + ' alert-' + type }, el('textarea', { value: message, onChange: updateMessage }));
-	},
-
-	transforms: {
-		to: {
-			type: 'block',
-			blocks: ['core/paragraph'],
-			transform: function transform(attrs) {
-				return wp.blocks.createBlock('riad/paragraph', {
-					content: attrs.message
-				});
-			}
-		}
-	},
-
-	save: function save(props) {
-		var type = props.attributes.type,
-		    message = props.attributes.message;
-
-		return el('p', { className: 'alert-' + type }, message);
-	}
-});
-
-/***/ }),
-/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bio_card__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bio_card__ = __webpack_require__(2);
 /**
  * Registers bio block.
  */
@@ -229,7 +168,7 @@ registerBlockType('rtgb/bio-block', {
 });
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -416,13 +355,12 @@ var BioCard = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (BioCard);
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 /**
  * Creates RichText block.
  */
-
 var __ = wp.i18n.__;
 var _wp$blocks = wp.blocks,
     registerBlockType = _wp$blocks.registerBlockType,
@@ -430,8 +368,8 @@ var _wp$blocks = wp.blocks,
     children = _wp$blocks.source.children;
 
 
-registerBlockType('rtgb/rt-RichText-block', {
-	title: __('RT RichText Block'),
+registerBlockType('rtgb/rt-editable-block', {
+	title: __('RT Editable Block'),
 	icon: 'universal-access-alt',
 	category: 'common',
 	attributes: {
@@ -487,12 +425,12 @@ registerBlockType('rtgb/rt-RichText-block', {
 });
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__github_gist__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__github_gist__ = __webpack_require__(5);
 /**
  * Registers github gist block.
  *
@@ -582,7 +520,7 @@ registerBlockType('rtgb/github-gist', {
 });
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -679,12 +617,12 @@ var GithubGist = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (GithubGist);
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(7);
 /**
  * Registers bio block.
  */
@@ -811,11 +749,11 @@ registerBlockType('rtgb/image-columns', {
 });
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__image_column__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__image_column__ = __webpack_require__(8);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -994,7 +932,7 @@ var ImageColumnBlock = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (ImageColumnBlock);
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1128,7 +1066,7 @@ var ImageColumn = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (ImageColumn);
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 /**
@@ -1151,21 +1089,21 @@ registerBlockType('rtgb/simple-block', {
 	category: 'common',
 
 	edit: function edit() {
-		return el('p', { style: blockStyle }, 'Hello World.');
+		return el('p', { className: 'simple-block' }, 'Hello World.');
 	},
 
 	save: function save() {
-		return el('p', { style: blockStyle }, 'Hello World Saved Content.');
+		return el('p', { className: 'simple-block' }, 'Hello World Saved Content.');
 	}
 });
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block__ = __webpack_require__(11);
 
 
 var __ = wp.i18n.__;
@@ -1269,11 +1207,11 @@ registerBlockType('rtgb/slider-block', {
 });
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__slide_image__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__slide_image__ = __webpack_require__(12);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1535,11 +1473,11 @@ var rtSliderBlock = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (rtSliderBlock);
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_classnames__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1653,7 +1591,7 @@ var SlideImage = function (_Component) {
 })(SlideImage));
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!

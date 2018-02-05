@@ -1,12 +1,11 @@
 /**
  * Creates RichText block.
  */
-
 const { __ } = wp.i18n;
 const { registerBlockType, RichText, source: { children } } = wp.blocks;
 
-registerBlockType( 'rtgb/rt-RichText-block', {
-	title: __( 'RT RichText Block' ),
+registerBlockType( 'rtgb/rt-editable-block', {
+	title: __( 'RT Editable Block' ),
 	icon: 'universal-access-alt',
 	category: 'common',
 	attributes: {
